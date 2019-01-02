@@ -30,7 +30,6 @@ namespace ArrowverseBot.Handlers
 
 			_service.Log += Log;
 
-			//Config.AudioHandler.client = _client;
 
 			_client.MessageDeleted += HandleMessageDeleted;
 		}
@@ -75,7 +74,7 @@ namespace ArrowverseBot.Handlers
 			if (arg.IsBot)
 			{
 				await (arg as IGuildUser).AddRoleAsync(arg.Guild.Roles.FirstOrDefault(x => x.Name == "Bot"));
-				await arg.Guild.GetTextChannel(294699220743618561).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
 				return;
 			}
 			string desc = $"{arg} has joined the server.";
@@ -90,7 +89,7 @@ namespace ArrowverseBot.Handlers
 			if (arg.IsBot)
 				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("Bot Removed", $"The {arg.Username} bot has been removed from the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
 			else
-				await arg.Guild.GetTextChannel(294699220743618561).SendMessageAsync("", false, Utilities.Embed("User Left", $"{arg} has left the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
+				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("User Left", $"{arg} has left the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
 		}
 
 		private async Task HandleCommandAsync(SocketMessage s)

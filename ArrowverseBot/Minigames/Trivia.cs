@@ -1,11 +1,11 @@
 ﻿using System;
 using Discord;
 using System.Linq;
+using ArrowverseBot.Handlers;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ArrowverseBot.Handlers;
 
 namespace ArrowverseBot.Minigames
 {
@@ -19,12 +19,6 @@ namespace ArrowverseBot.Minigames
 		private List<SocketGuildUser> PlayersAnswered = new List<SocketGuildUser>();
 		private static Random rdn = new Random();
 
-		public static readonly Random getrandom = new Random();
-		public static int GetRandomNumber(int min, int max)
-		{
-			lock (getrandom) { return getrandom.Next(min, max); }
-		}
-
 		private Embed Embed(string description, string footer) => Utilities.Embed("Trivia", description, color, footer, "");
 
 		private string GetName(SocketGuildUser user) => user.Nickname ?? user.Username;
@@ -32,10 +26,9 @@ namespace ArrowverseBot.Minigames
 		public async Task TryToStartTrivia(SocketGuildUser user, SocketCommandContext context, string input)
 		{
 			if (!await Utilities.CheckForChannel(context, 525378972989521948, context.User)) return;
-
-			if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds < 60)
+			if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds < 10)
 			{
-				await context.Channel.SendMessageAsync("", false, Embed($"Sorry, {Player.Mention} is currently playing.\nYou can ask an admin to `!reset trivia` if there is an issue.", ""));
+				await Utilities.PrintError(context.Channel, $"Sorry, {Player.Mention} is currently playing.\nYou can ask an admin to `!reset trivia` if there is an issue.");
 				return;
 			}
 			if (input == "trivia")
@@ -43,12 +36,16 @@ namespace ArrowverseBot.Minigames
 				await context.Channel.SendMessageAsync("", false, Embed("Please select a mode.\n\n`!trivia solo` - Play alone.\n\n`!trivia all` - First to answer wins.", ""));
 				return;
 			}
-			if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds > 60)
+			if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds > 10)
 				await CancelGame(Player, context);
 			await StartTrivia(user, context, input.Replace("trivia ", ""));
 		}
 
-		private async Task CancelGame(SocketGuildUser user, SocketCommandContext context) => await context.Channel.SendMessageAsync("", false, Embed($"{user.Mention} took too long to answer.", ""));
+		private async Task CancelGame(SocketGuildUser user, SocketCommandContext context)
+		{
+			CoinsHandler.AdjustCoins(user, -1);
+			await context.Channel.SendMessageAsync("", false, Embed($"{user.Mention} took too long to answer and lost 1 coin.", ""));
+		}
 
 		private async Task StartTrivia(SocketGuildUser user, SocketCommandContext context, string mode)
 		{
@@ -56,7 +53,7 @@ namespace ArrowverseBot.Minigames
 			triviaMode = mode;
 			isTriviaBeingPlayed = true;
 			StartTime = DateTime.Now;
-			int QuestionNum = GetRandomNumber(0, Config.triviaQuestions.Questions.Count);
+			int QuestionNum = Utilities.GetRandomNumber(0, Config.triviaQuestions.Questions.Count);
 
 			string[] Fakes = { "", "", "", "" };
 
@@ -67,7 +64,7 @@ namespace ArrowverseBot.Minigames
 
 			string[] RandomFakes = Fakes.OrderBy(x => rdn.Next()).ToArray();
 
-			for (int n = 0; n < RandomFakes.Length; n++)
+			for (int n = 0; n < 4; n++)
 			{
 				if (RandomFakes[n] == Config.triviaQuestions.Questions.ElementAt(QuestionNum).Answer)
 				{
@@ -106,11 +103,13 @@ namespace ArrowverseBot.Minigames
 				string name = user.Nickname != null ? user.Nickname : user.ToString();
 				if (input == correctAnswer)
 				{
-					await context.Channel.SendMessageAsync("", false, Embed("Correct.", ""));
+					await context.Channel.SendMessageAsync("", false, Embed("Correct.", $"{GetName(user)} has been awarded 1 coin."));
+					CoinsHandler.AdjustCoins(user, 1);
 					ResetTrivia();
 					return;
 				}
-				await context.Channel.SendMessageAsync("", false, Embed($"Wrong, it is {correctAnswer.ToUpper()}.", ""));
+				await context.Channel.SendMessageAsync("", false, Embed($"Wrong, it is {correctAnswer.ToUpper()}.", $"{GetName(user)} lost 1 coin."));
+				CoinsHandler.AdjustCoins(user, -1);
 				ResetTrivia();
 				return;
 			}
@@ -119,14 +118,15 @@ namespace ArrowverseBot.Minigames
 				for (int i = 0; i < PlayersAnswered.Count; i++)
 					if (PlayersAnswered.ElementAt(i) == user)
 					{
-						await context.Channel.SendMessageAsync("", false, Embed($"You already answered, {user.Mention}.", ""));
+						await Utilities.PrintError(context.Channel, $"You already answered, {user.Mention}.");
 						return;
 					}
 
 				PlayersAnswered.Add(user);
 				if (input == correctAnswer)
 				{
-					await context.Channel.SendMessageAsync("", false, Embed($"Correct, {user.Mention} won!", ""));
+					await context.Channel.SendMessageAsync("", false, Embed($"Correct, {user.Mention} won!", $"{GetName(user)} has been awarded 1 coin."));
+					CoinsHandler.AdjustCoins(user, 1);
 					ResetTrivia();
 					return;
 				}

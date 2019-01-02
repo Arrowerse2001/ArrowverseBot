@@ -15,7 +15,7 @@ namespace ArrowverseBot.Handlers
 		public static async Task DisplayGames(SocketCommandContext context)
 		{
 			if (!await Utilities.CheckForChannel(context, 525378972989521948, context.User)) return;
-			await context.Channel.SendMessageAsync("", false, Utilities.Embed("MiniGames", "Trivia", new Color(31, 139, 76), "", ""));
+			await context.Channel.SendMessageAsync("", false, Utilities.Embed("MiniGames", "Trivia\n`!trivia`\n\nTic-Tac-Toe\n`!ttt`\n\nNumber Guess\n`!play ng`\n\nRussian Roulette\n`!rr`\n\n8-Ball\n`!8ball`", new Color(31, 139, 76), "", ""));
 		}
 
 		public async Task TryToStartTrivia(SocketCommandContext context, string input)
@@ -24,7 +24,7 @@ namespace ArrowverseBot.Handlers
 				await Trivia.TryToStartTrivia((SocketGuildUser)context.User, context, "all");
 		}
 
-		
+
 		// Reset a game
 		public static async Task ResetGame(SocketCommandContext context, string game)
 		{
@@ -34,7 +34,7 @@ namespace ArrowverseBot.Handlers
 				await context.Channel.SendMessageAsync("", false, Utilities.Embed("MiniGames", $"{context.User.Mention} has reset Trivia.", color, "", ""));
 				Trivia.ResetTrivia();
 			}
-			
+		
 			else if (game == "")
 				await Utilities.PrintError(context.Channel, "Please specify a game to reset.");
 			else

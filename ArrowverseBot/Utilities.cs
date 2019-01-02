@@ -13,18 +13,18 @@ namespace ArrowverseBot
 {
 	class Utilities
 	{
-		// Universal Web Client
+		// Web Client
 		public static WebClient webClient = new WebClient();
 
 		
-		// Get a random number
+		// random number
 		public static readonly Random getrandom = new Random();
 		public static int GetRandomNumber(int min, int max)
 		{
 			lock (getrandom) { return getrandom.Next(min, max); }
 		}
 
-		// Generic Embed template
+		// Embed plan
 		public static Embed Embed(string t, string d, Discord.Color c, string f, string thURL) => new EmbedBuilder()
 			.WithTitle(t)
 			.WithDescription(d)
@@ -33,7 +33,7 @@ namespace ArrowverseBot
 			.WithThumbnailUrl(thURL)
 			.Build();
 
-		// Generic Image Embed template
+		// picture embed plan
 		public static Embed ImageEmbed(string t, string d, Discord.Color c, string f, string imageURL) => new EmbedBuilder()
 			.WithTitle(t)
 			.WithDescription(d)
