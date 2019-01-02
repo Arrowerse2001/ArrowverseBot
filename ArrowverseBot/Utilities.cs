@@ -16,7 +16,6 @@ namespace ArrowverseBot
 		// Universal Web Client
 		public static WebClient webClient = new WebClient();
 
-
 		// random number
 		public static readonly Random getrandom = new Random();
 		public static int GetRandomNumber(int min, int max)
@@ -44,10 +43,6 @@ namespace ArrowverseBot
 
 		// Print an error
 		public static async Task PrintError(ISocketMessageChannel channel, string description) => await channel.SendMessageAsync("", false, Embed("Error", description, new Discord.Color(227, 37, 39), "", ""));
-
-
-
-
 
 		// Checks if a user is a superadmin, this is to see if they can do a certain command
 		public static async Task<bool> CheckForSuperadmin(SocketCommandContext context, SocketUser user)

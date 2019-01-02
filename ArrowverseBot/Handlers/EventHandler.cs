@@ -99,7 +99,6 @@ namespace ArrowverseBot.Handlers
 
 			var context = new SocketCommandContext(_client, msg);
 
-
 			int argPos = 0;
 			if (msg.HasStringPrefix("!", ref argPos))
 				await _service.ExecuteAsync(context, argPos, null, MultiMatchHandling.Exception);
@@ -111,9 +110,7 @@ namespace ArrowverseBot.Handlers
 			{
 				// Answer Trivia
 				if (m == "a" || m == "b" || m == "c" || m == "d")
-					await MinigameHandler.Trivia.AnswerTrivia((SocketGuildUser)msg.Author, context, m);
-
-			
+					await Config.MinigameHandler.Trivia.AnswerTrivia((SocketGuildUser)msg.Author, context, m);
 			}
 
 			// Print a lennyface

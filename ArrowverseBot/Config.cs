@@ -12,7 +12,7 @@ namespace ArrowverseBot
 
 		public static BotConfig bot;
 		public static TriviaQuestions triviaQuestions;
-		public static Minigames.Trivia Trivia = new Minigames.Trivia();
+        public static Handlers.MinigameHandler MinigameHandler = new Handlers.MinigameHandler();
 
 		static Config()
 		{

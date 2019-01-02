@@ -84,16 +84,6 @@ namespace ArrowverseBot.Handlers
 		//Server Stats
 		[Command("serverstats")]
 		public async Task ServerStats() => await StatsHandler.DisplayServerStats(Context);
-
-
-		
-
-
-		// Trivia menu & modes
-		[Command("trivia")]
-		public async Task TryToStartTrivia(string input = null) => await MinigameHandler.Trivia.TryToStartTrivia((SocketGuildUser)Context.User, Context, input ?? "trivia");
-
-
 		
 
 	}
