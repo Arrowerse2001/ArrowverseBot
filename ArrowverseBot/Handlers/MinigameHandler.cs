@@ -14,7 +14,7 @@ namespace ArrowverseBot.Handlers
 		
 		public static async Task DisplayGames(SocketCommandContext context)
 		{
-			if (!await Utilities.CheckForChannel(context, 525378972989521948, context.User)) return;
+			if (!await Utilities.CheckForChannel(context, 509099311661842433, context.User)) return;
 			await context.Channel.SendMessageAsync("", false, Utilities.Embed("MiniGames", "Trivia\n`!trivia`\n\nTic-Tac-Toe\n`!ttt`\n\nNumber Guess\n`!play ng`\n\nRussian Roulette\n`!rr`\n\n8-Ball\n`!8ball`", new Color(31, 139, 76), "", ""));
 		}
 

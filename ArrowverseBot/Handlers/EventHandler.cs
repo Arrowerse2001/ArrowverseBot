@@ -54,7 +54,7 @@ namespace ArrowverseBot.Handlers
 		        .Build());
 		}
 
-		private async Task HandleUserUnbanned(SocketUser arg1, SocketGuild arg2) => await arg2.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("Pardon", $"{arg1} has been unbanned.", new Color(31, 139, 76), "", arg1.GetAvatarUrl()));
+		private async Task HandleUserUnbanned(SocketUser arg1, SocketGuild arg2) => await arg2.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("Pardon", $"{arg1} has been unbanned.", new Color(31, 139, 76), "", arg1.GetAvatarUrl()));
 
 		private async Task HandleUserBanned(SocketUser arg1, SocketGuild arg2)
 		{
@@ -64,9 +64,9 @@ namespace ArrowverseBot.Handlers
 				if (ban.User.Id == arg1.Id)
 					reason = ban.Reason;
 			if (reason == "")
-				await arg2.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("Ban", $"{arg1} has been banned.", new Color(231, 76, 60), "", arg1.GetAvatarUrl()));
+				await arg2.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("Ban", $"{arg1} has been banned.", new Color(231, 76, 60), "", arg1.GetAvatarUrl()));
 			else
-				await arg2.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("Ban", $"{arg1} has been banned for {reason}.", new Color(231, 76, 60), "", arg1.GetAvatarUrl()));
+				await arg2.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("Ban", $"{arg1} has been banned for {reason}.", new Color(231, 76, 60), "", arg1.GetAvatarUrl()));
 		}
 
 		private async Task HandleUserJoining(SocketGuildUser arg)
@@ -74,22 +74,22 @@ namespace ArrowverseBot.Handlers
 			if (arg.IsBot)
 			{
 				await (arg as IGuildUser).AddRoleAsync(arg.Guild.Roles.FirstOrDefault(x => x.Name == "Bot"));
-				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+				await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("New Bot", $"The {arg.Username} bot has been added to the server.", new Color(31, 139, 76), "", arg.GetAvatarUrl()));
 				return;
 			}
 			string desc = $"{arg} has joined the server.";
 			if (UserAccounts.GetAccount(arg).level != 0)
 			{
 			}
-			await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
+			await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
 		}
 
 		private async Task HandleUserLeaving(SocketGuildUser arg)
 		{
 			if (arg.IsBot)
-				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("Bot Removed", $"The {arg.Username} bot has been removed from the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
+				await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("Bot Removed", $"The {arg.Username} bot has been removed from the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
 			else
-				await arg.Guild.GetTextChannel(525378972989521948).SendMessageAsync("", false, Utilities.Embed("User Left", $"{arg} has left the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
+				await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("User Left", $"{arg} has left the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
 		}
 
 		private async Task HandleCommandAsync(SocketMessage s)
@@ -106,7 +106,7 @@ namespace ArrowverseBot.Handlers
 			string m = msg.Content.ToLower();
 
 			// Answer minigames
-			if (context.Channel.Id == 525378972989521948)
+			if (context.Channel.Id == 509099311661842433)
 			{
 				// Answer Trivia
 				if (m == "a" || m == "b" || m == "c" || m == "d")

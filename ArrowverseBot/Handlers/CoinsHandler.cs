@@ -187,7 +187,7 @@ namespace ArrowverseBot.Handlers
 		public static async Task StartCoinsLottery(SocketCommandContext context, int amount, int cost)
 		{
 			if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
-			if (!await Utilities.CheckForChannel(context, 518846214603669537, context.User)) return;
+			if (!await Utilities.CheckForChannel(context, 509099311661842433, context.User)) return;
 			if (isLotteryGoing)
 			{
 				await Utilities.PrintError(context.Channel, $"A lottery is already active, {context.User.Mention}.");
