@@ -20,6 +20,8 @@ namespace ArrowverseBot.Handlers
 		[Command("reset")]
 		public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
 
+
+
 		[Command("pickpocket")]
 		public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);
 
@@ -46,6 +48,8 @@ namespace ArrowverseBot.Handlers
 			if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
 			await CoinsHandler.SpawnCoins(Context, user, amount);
 		}
+
+ 
 
 		// Remove Coins for a user
 		[Command("coins remove")]
@@ -89,8 +93,8 @@ namespace ArrowverseBot.Handlers
 		[Command("trivia")]
 		public async Task TryToStartTrivia(string input = null) => await MinigameHandler.Trivia.TryToStartTrivia((SocketGuildUser)Context.User, Context, input ?? "trivia");
 
-		
 
 		
+
 	}
 }

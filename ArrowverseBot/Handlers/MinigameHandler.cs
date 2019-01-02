@@ -10,7 +10,7 @@ namespace ArrowverseBot.Handlers
 	{
 		private static readonly Color color = new Color(31, 139, 76);
 
-		public static Trivia Trivia = new Trivia();
+		public static Minigames.Trivia Trivia = new Minigames.Trivia();
 		
 		public static async Task DisplayGames(SocketCommandContext context)
 		{
