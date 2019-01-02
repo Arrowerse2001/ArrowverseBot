@@ -13,10 +13,10 @@ namespace ArrowverseBot
 {
 	class Utilities
 	{
-		// Web Client
+		// Universal Web Client
 		public static WebClient webClient = new WebClient();
 
-		
+
 		// random number
 		public static readonly Random getrandom = new Random();
 		public static int GetRandomNumber(int min, int max)
@@ -24,7 +24,7 @@ namespace ArrowverseBot
 			lock (getrandom) { return getrandom.Next(min, max); }
 		}
 
-		// Embed plan
+		// Embeds
 		public static Embed Embed(string t, string d, Discord.Color c, string f, string thURL) => new EmbedBuilder()
 			.WithTitle(t)
 			.WithDescription(d)
@@ -33,7 +33,7 @@ namespace ArrowverseBot
 			.WithThumbnailUrl(thURL)
 			.Build();
 
-		// picture embed plan
+		// Picture Embed
 		public static Embed ImageEmbed(string t, string d, Discord.Color c, string f, string imageURL) => new EmbedBuilder()
 			.WithTitle(t)
 			.WithDescription(d)
@@ -45,22 +45,9 @@ namespace ArrowverseBot
 		// Print an error
 		public static async Task PrintError(ISocketMessageChannel channel, string description) => await channel.SendMessageAsync("", false, Embed("Error", description, new Discord.Color(227, 37, 39), "", ""));
 
-		
 
-		// Convert a hexidecimal to an RGB value (input does not include the '#')
-		public static Discord.Color HexToRGB(string hex)
-		{
-			// First two values of the hex
-			int r = int.Parse(hex.Substring(0, hex.Length - 4), System.Globalization.NumberStyles.AllowHexSpecifier);
 
-			// Get the middle two values of the hex
-			int g = int.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
 
-			// Final two values
-			int b = int.Parse(hex.Substring(4), System.Globalization.NumberStyles.AllowHexSpecifier);
-
-			return new Discord.Color(r, g, b);
-		}
 
 		// Checks if a user is a superadmin, this is to see if they can do a certain command
 		public static async Task<bool> CheckForSuperadmin(SocketCommandContext context, SocketUser user)
@@ -81,3 +68,4 @@ namespace ArrowverseBot
 		}
 	}
 }
+
