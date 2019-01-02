@@ -82,49 +82,7 @@ namespace ArrowverseBot.Handlers
 		public async Task ServerStats() => await StatsHandler.DisplayServerStats(Context);
 
 
-		// Convert a hexadecimal to an RGB value
-		[Command("rgb")]
-		public async Task HexToRGB(string input)
-		{
-			input = input.Replace("#", "");
-
-			if (!new Regex("^[a-zA-Z0-9]*$").IsMatch(input) || input.Length != 6)
-			{
-				await Utilities.PrintError(Context.Channel, $"Please enter a valid hexadecimal, {Context.User.Mention}.");
-				return;
-			}
-
-			var RGB = Utilities.HexToRGB(input);
-			string result = $"`#{input}` = `{RGB.R}, {RGB.G}, {RGB.B}`\n\n" +
-				$"`Red: {RGB.R}`\n" +
-				$"`Green: {RGB.G}`\n" +
-				$"`Blue: {RGB.B}`\n";
-			await Context.Channel.SendMessageAsync("", false, Utilities.Embed("Hexadecimal to RGB", result, RGB, "", ""));
-		}
-
-		// Convert an RGB value to a hexadecimal
-		[Command("hex")]
-		public async Task RGBToHex(int R, int G, int B)
-		{
-			if (R < 0 || R > 255)
-			{
-				await Utilities.PrintError(Context.Channel, $"Please enter a valid red value, {Context.User.Mention}.");
-				return;
-			}
-
-			else if (G < 0 || G > 255)
-			{
-				await Utilities.PrintError(Context.Channel, $"Please enter a valid green value, {Context.User.Mention}.");
-				return;
-			}
-
-			else if (B < 0 || B > 255)
-			{
-				await Utilities.PrintError(Context.Channel, $"Please enter a valid blue value, {Context.User.Mention}.");
-				return;
-			}
-			await Context.Channel.SendMessageAsync("", false, Utilities.Embed("RGB to Hexadecimal", $"`{R}, {G}, {B}` = `#{R:X2}{G:X2}{B:X2}`", new Color(R, G, B), "", ""));
-		}
+		
 
 
 		// Trivia menu & modes
