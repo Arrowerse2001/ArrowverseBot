@@ -45,7 +45,7 @@ namespace ArrowverseBot
 			.Build();
 
 		// Print an error
-		public static async Task PrintError(ISocketMessageChannel channel, string description) => await SendEmbed(channel, "Error", description, Colors.Red, "", "").ConfigureAwait(false);
+		public static async Task PrintError(ISocketMessageChannel channel, string description) => await SendEmbed(channel, "Error", description, "", "").ConfigureAwait(false);
 
 		// Get a dominant color from an image (url)
 		public static Discord.Color DomColorFromURL(string url)
