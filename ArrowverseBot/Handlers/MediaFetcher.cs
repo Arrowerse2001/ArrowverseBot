@@ -4,9 +4,9 @@ namespace ArrowverseBot
 {
 	class MediaFetcher
 	{
-		public static Movie FetchMovie(string Search) => JsonConvert.DeserializeObject<Movie>(Utilities.webClient.DownloadString($"http://www.omdbapi.com/?t={Search}&apikey=eb95048e"));
+		public static Movie FetchMovie(string Search) => JsonConvert.DeserializeObject<Movie>(Utilities.webClient.DownloadString($"http://www.omdbapi.com/?t={Search}&apikey="));
 
-		public static TVShow FetchShow(string Search) => JsonConvert.DeserializeObject<TVShow>(Utilities.webClient.DownloadString($"http://www.omdbapi.com/?t={Search}&apikey=eb95048e"));
+		public static TVShow FetchShow(string Search) => JsonConvert.DeserializeObject<TVShow>(Utilities.webClient.DownloadString($"http://www.omdbapi.com/?t={Search}&apikey="));
 
 		public struct Rating
 		{
