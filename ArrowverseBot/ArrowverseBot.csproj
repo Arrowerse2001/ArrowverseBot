@@ -160,6 +160,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
     <Compile Include="Handlers\CommandDefinitions.cs" />
+    <Compile Include="Handlers\MediaFetcher.cs" />
     <Compile Include="Handlers\UserData\DataStorage.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
     <Compile Include="Handlers\MinigameHandler.cs" />
