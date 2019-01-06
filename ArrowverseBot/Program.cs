@@ -1,6 +1,5 @@
 ﻿using System;
 using Discord;
-using ArrowverseBot.Handlers;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
@@ -30,7 +29,5 @@ namespace ArrowverseBot
 			Console.WriteLine(msg.Message);
 			return Task.CompletedTask;
 		}
-
-
 	}
 }

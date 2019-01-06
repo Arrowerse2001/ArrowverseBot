@@ -1,7 +1,6 @@
 ﻿using System;
 using Discord;
 using System.Linq;
-using ArrowverseBot.Handlers;
 using Discord.Commands;
 using System.Reflection;
 using Discord.WebSocket;
@@ -18,7 +17,7 @@ namespace ArrowverseBot.Handlers
 		{
 			_client = client;
 			_service = new CommandService();
-			await _service.AddModulesAsync(Assembly.GetEntryAssembly());
+			await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
 			_client.MessageReceived += HandleCommandAsync;
 
@@ -92,7 +91,10 @@ namespace ArrowverseBot.Handlers
 				await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("User Left", $"{arg} has left the server.", new Color(231, 76, 60), "", arg.GetAvatarUrl()));
 		}
 
-		private async Task HandleCommandAsync(SocketMessage s)
+        string[] spellingMistakes = { "should of", "would of", "wouldnt of", "wouldn't of", "would not of", "couldnt of", "couldn't of", "could not of", "better of", "shouldnt of", "shouldn't of", "should not of", "alot", "could of" };
+        string[] spellingFix = { "should have", "would have", "wouldn't have", "wouldn't have", "would not have", "couldn't have", "couldn't have", "could not have", "better have", "shouldn't have", "shouldn't have", "should not have", "a lot", "could have" };
+
+        private async Task HandleCommandAsync(SocketMessage s)
 		{
 			SocketUserMessage msg = s as SocketUserMessage;
 			if (msg == null || msg.Author.IsBot) return;
@@ -118,8 +120,6 @@ namespace ArrowverseBot.Handlers
 				await context.Channel.SendMessageAsync("( ͡° ͜ʖ ͡°)");
 
 			// Fix some spelling mistakes
-			string[] spellingMistakes = { "should of", "would of", "wouldnt of", "wouldn't of", "would not of", "couldnt of", "couldn't of", "could not of", "better of", "shouldnt of", "shouldn't of", "should not of", "alot", "could of" };
-			string[] spellingFix = { "should have", "would have", "wouldn't have", "wouldn't have", "would not have", "couldn't have", "couldn't have", "could not have", "better have", "shouldn't have", "shouldn't have", "should not have", "a lot", "could have" };
 			for (int i = 0; i < spellingMistakes.Length; i++)
 				if (m.Contains(spellingMistakes[i]))
 					await msg.Channel.SendMessageAsync(spellingFix[i] + "*");

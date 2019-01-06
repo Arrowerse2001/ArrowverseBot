@@ -16,13 +16,11 @@ namespace ArrowverseBot.Handlers
 	public class Misc : ModuleBase<SocketCommandContext>
 	{
 		//Reset A Game
-
 		[Command("reset")]
 		public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
 
-
-
-		[Command("pickpocket")]
+        #region Coin Related Commands
+        [Command("pickpocket")]
 		public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);
 
 		// Start a Coins Lottery
@@ -48,8 +46,6 @@ namespace ArrowverseBot.Handlers
 			if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
 			await CoinsHandler.SpawnCoins(Context, user, amount);
 		}
-
- 
 
 		// Remove Coins for a user
 		[Command("coins remove")]
@@ -78,11 +74,11 @@ namespace ArrowverseBot.Handlers
 		// Print the Coins leaderboard
 		[Command("leaderboard coins")]
 		public async Task CoinsLeaderboard() => await CoinsHandler.PrintCoinsLeaderboard(Context);
+        #endregion
 
 
-
-		//Server Stats
-		[Command("serverstats")]
+        //Server Stats
+        [Command("serverstats")]
 		public async Task ServerStats() => await StatsHandler.DisplayServerStats(Context);
 
 		// View Stats for a movie
@@ -129,7 +125,5 @@ namespace ArrowverseBot.Handlers
 				.WithColor(Utilities.DomColorFromURL(media.Poster))
 				.Build());
 		}
-
-
-	}
+    }
 }
