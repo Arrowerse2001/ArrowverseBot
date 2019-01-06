@@ -125,5 +125,62 @@ namespace ArrowverseBot.Handlers
 				.WithColor(Utilities.DomColorFromURL(media.Poster))
 				.Build());
 		}
-    }
+
+		[Command("delete")]
+		public async Task DeleteMessage(int amount)
+		{
+			if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
+			var channel = (ITextChannel)Context.Channel;
+			var messages = await channel.GetMessagesAsync(++amount).Flatten().ToList();
+			await channel.DeleteMessagesAsync(messages);
+		}
+
+		[Command("say")]
+		public async Task Say([Remainder]string message)
+		{
+			if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
+			await Context.Channel.DeleteMessageAsync(Context.Message.Id);
+			await Context.Channel.SendMessageAsync(message);
+		}
+
+		[Command("dm")]
+		public async Task DM(SocketGuildUser target, [Remainder]string message)
+		{
+			if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
+			await Context.Channel.DeleteMessageAsync(Context.Message.Id);
+			await target.SendMessageAsync(message);
+		}
+
+		[Command("color")]
+		public async Task GetDomColor(string url)
+		{
+			var color = Utilities.DomColorFromURL(url);
+			await Utilities.SendEmbed(Context.Channel, "Dominant Color", $"The dominant color for the image is:\n\nHexadecimal:\n`#{color.R:X2}{color.G:X2}{color.B:X2}`\n\nRGB:\n`Red: {color.R}`\n`Green: {color.G}`\n`Blue: {color.B}`", color, "", url);
+		}
+
+		[Command("onlinecount")]
+		public async Task CountUsersOnline() => await Context.Channel.SendMessageAsync($"There are currently {Context.Guild.Users.ToArray().Length} members online.");
+
+		[Command("joined")]
+		public async Task JoinedAt(SocketGuildUser user = null) => await Context.Channel.SendMessageAsync(StatsHandler.GetJoinedDate((user ?? (SocketGuildUser)Context.User)));
+
+		[Command("created")]
+		public async Task Created(SocketGuildUser user = null) => await Context.Channel.SendMessageAsync(StatsHandler.GetCreatedDate(user ?? Context.User));
+
+		[Command("avatar")]
+		public async Task GetAvatar(SocketGuildUser user = null) => await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL((user ?? Context.User).GetAvatarUrl()), "", (user ?? Context.User).GetAvatarUrl().Replace("?size=128", "?size=512")));
+
+		
+		// See stats for a certain user
+		[Command("stats")]
+		public async Task DisplayUserStats(SocketGuildUser user = null) => await StatsHandler.DisplayUserStats(Context, user ?? (SocketGuildUser)Context.User);
+
+
+		[Command("harry")]
+		public async Task RandomAlaniPic()
+		{
+			string pic = Config.bot.harryPics[Utilities.GetRandomNumber(0, Config.bot.harryPics.Count)];
+			await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(pic), "", pic));
+		}
+	}
 }

@@ -47,6 +47,8 @@ namespace ArrowverseBot
 	{
 		public string DisordBotToken;
 		public string MovieTVAPIKey;
+		public List<string> harryPics;
+
 	}
 
 	public struct TriviaQuestion

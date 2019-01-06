@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿// Get Movie data, TV show data, and YouTube channel data
+using Newtonsoft.Json;
 
 namespace ArrowverseBot
 {
