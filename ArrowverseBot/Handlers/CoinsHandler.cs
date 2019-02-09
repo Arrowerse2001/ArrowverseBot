@@ -67,7 +67,7 @@ namespace ArrowverseBot.Handlers
 		// Still in development
 		public static async Task DisplayCoinsStore(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
 		{
-			await channel.SendMessageAsync("", false, Utilities.Embed($"Coins Store", $"500 XP - ??? Coins\n1000 XP - ???", color, $"You have {UserAccounts.GetAccount(user).coins} Coins.", icon));
+			await channel.SendMessageAsync("", false, Utilities.Embed($"Coins Store", $"Coin Doubler", Color.Blue, $"You have {UserAccounts.GetAccount(user).coins} Coins.", icon));
 		}
 
 		private struct PickPocketUser { public SocketGuildUser user; public DateTime timeStamp; }

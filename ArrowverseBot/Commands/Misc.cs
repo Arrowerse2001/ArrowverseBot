@@ -193,7 +193,7 @@ namespace ArrowverseBot.Handlers
         [Command("help")]
         public async Task help() => await Context.Channel.SendMessageAsync("https://github.com/Arrowerse2001/ArrowverseBot Support Server: https://discord.gg/4Tb4PCU");
 
-
+    
 
     }
 }
