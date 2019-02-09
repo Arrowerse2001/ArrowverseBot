@@ -81,51 +81,7 @@ namespace ArrowverseBot.Handlers
         [Command("serverstats")]
 		public async Task ServerStats() => await StatsHandler.DisplayServerStats(Context);
 
-		// View Stats for a movie
-		[Command("movie")]
-		public async Task SearchMovie([Remainder]string search)
-		{
-			MediaFetcher.Movie media = MediaFetcher.FetchMovie(search);
-
-			string RTScore = "N/A", IMDBScore;
-
-			for (int i = 0; i < media.Ratings.Length; i++)
-				if (media.Ratings[i].Source == "Rotten Tomatoes") RTScore = media.Ratings[i].Value;
-
-			IMDBScore = media.imdbRating == "N/A" ? "N/A" : $"{media.imdbRating}/10";
-
-			await Context.Channel.SendMessageAsync(null, false, new EmbedBuilder()
-				.WithTitle($":film_frames: {media.Title} ({media.Year})")
-				.WithThumbnailUrl(media.Poster)
-				.WithDescription(media.Plot)
-				.AddField("Director", media.Director)
-				.AddField("Runtime", media.Runtime)
-				.AddField("Box Office", media.BoxOffice)
-				.AddField("IMDB Score", IMDBScore)
-				.AddField("Rotten Tomatoes", RTScore)
-				.WithColor(Utilities.DomColorFromURL(media.Poster))
-				.Build());
-		}
-
-		// View stats for a TV show
-		[Command("tv")]
-		public async Task SearchShows([Remainder]string search)
-		{
-			MediaFetcher.Movie media = MediaFetcher.FetchMovie(search);
-
-			string IMDBScore = media.imdbRating == "N/A" ? "N/A" : $"{media.imdbRating}/10";
-			media.Year = media.Year.Replace("â€“", "-");
-
-			await Context.Channel.SendMessageAsync(null, false, new EmbedBuilder()
-				.WithTitle($":film_frames: {media.Title} ({media.Year})")
-				.WithThumbnailUrl(media.Poster)
-				.WithDescription(media.Plot)
-				.AddField("Runtime", media.Runtime)
-				.AddField("IMDB Score", IMDBScore)
-				.WithColor(Utilities.DomColorFromURL(media.Poster))
-				.Build());
-		}
-
+		
 		[Command("delete")]
 		public async Task DeleteMessage(int amount)
 		{
