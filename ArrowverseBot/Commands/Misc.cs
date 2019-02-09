@@ -24,22 +24,6 @@ namespace ArrowverseBot.Handlers
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);
 
-        // Start a Coins Lottery
-        [Command("coins lottery start")]
-        public async Task StartCoinsLottery(int amount, int cost) => await CoinsHandler.StartCoinsLottery(Context, amount, cost);
-
-        // Join the Coins Lottery
-        [Command("coins lottery join")]
-        public async Task JoinCoinsLottery() => await CoinsHandler.JoinCoinsLottery(Context);
-
-        // Draw the Coins Lottery
-        [Command("coins lottery draw")]
-        public async Task DrawCoinsLottery() => await CoinsHandler.DrawLottery(Context);
-
-        // Reset Coins Lottery
-        [Command("coins lottery reset")]
-        public async Task ResetCoinsLottery() => await CoinsHandler.ResetCoinsLottery(Context, true);
-
         // Spawn Coins for a user
         [Command("coins spawn")]
         public async Task SpawnCoins(SocketGuildUser user, [Remainder]int amount)
@@ -134,12 +118,7 @@ namespace ArrowverseBot.Handlers
         public async Task DisplayUserStats(SocketGuildUser user = null) => await StatsHandler.DisplayUserStats(Context, user ?? (SocketGuildUser)Context.User);
 
 
-        [Command("harry")]
-        public async Task RandomAlaniPic()
-        {
-            string pic = Config.bot.harryPics[Utilities.GetRandomNumber(0, Config.bot.harryPics.Count)];
-            await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(pic), "", pic));
-        }
+
 
         // see custom emojis
         [Command("emotes")]
@@ -175,7 +154,48 @@ namespace ArrowverseBot.Handlers
 
         }
 
+        [Command("mock")]
+        public async Task Mock([Remainder]string message)
+        {
+            char[] letters = message.ToCharArray();
+            for (int n = 0; n < letters.Length; n += 2)
+                letters[n] = char.ToUpper(letters[n]);
+            string name = ((SocketGuildUser)Context.User).Nickname ?? Context.User.Username;
+            await Utilities.SendEmbed(Context.Channel, "", new string(letters), Colours.Blue, $"Mocked by {name}", "http://i0.kym-cdn.com/photos/images/masonry/001/255/479/85b.png");
+        }
+
+        [Command("reverse")]
+        public async Task ReverseText([Remainder]string input)
+        {
+            char[] chars = input.ToCharArray();
+            int len = input.Length - 1;
+            for (uint i = 0; i < len; i++, len--)
+            {
+                chars[i] ^= chars[len];
+                chars[len] ^= chars[i];
+                chars[i] ^= chars[len];
+            }
+            await Utilities.SendEmbed(Context.Channel, "Reversed Text", new string(chars), Colours.Blue, "", "");
+        }
+
+        // Send a random picture of Harry
+        [Command("harry")]
+        public async Task RandomHarryPic()
+        {
+            string pic = Config.bot.harryPics[Utilities.GetRandomNumber(0, Config.bot.harryPics.Count)];
+            await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(pic), "", pic));
+        }
+
+        [Command("dicksize")]
+        public async Task DickSize() => await Context.Channel.SendMessageAsync($"8{new string('=', new Random().Next(1, 13))}D");
+
+
+        [Command("help")]
+        public async Task help() => await Context.Channel.SendMessageAsync("https://github.com/Arrowerse2001/ArrowverseBot Support Server: https://discord.gg/4Tb4PCU");
+
+
 
     }
 }
+    
 
