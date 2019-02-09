@@ -8,47 +8,46 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
-// Thanks to Will for uploading the code onto github :)
 namespace ArrowverseBot
 {
-	class Utilities
-	{
-        // Red
-        public readonly static Discord.Color Red = new Discord.Color(231, 76, 60);
-
+    static class Utilities
+    {
         // Universal Web Client
-        public static WebClient webClient = new WebClient();
+        public static readonly WebClient webClient = new WebClient();
 
-		// Color Thief (gets the dominant color of an image, makes my embeds look pretty)
-		private static ColorThief colorThief = new ColorThief();
+        // Color Thief (gets the dominant color of an image, makes my embeds look pretty)
+        private static ColorThief colorThief = new ColorThief();
 
-		// Get a random number
-		public static readonly Random getrandom = new Random();
-		public static int GetRandomNumber(int min, int max)
-		{
-			lock (getrandom) { return getrandom.Next(min, max); }
-		}
+        // Get a random number
+        public static readonly Random getrandom = new Random();
+        public static int GetRandomNumber(int min, int max)
+        {
+            lock (getrandom) { return getrandom.Next(min, max); }
+        }
 
-		// Generic Embed template
-		public static Embed Embed(string t, string d, Discord.Color c, string f, string thURL) => new EmbedBuilder()
-			.WithTitle(t)
-			.WithDescription(d)
-			.WithColor(c)
-			.WithFooter(f)
-			.WithThumbnailUrl(thURL)
-			.Build();
+        // Generic Embed template
+        public static Embed Embed(string t, string d, Discord.Color c, string f, string thURL) => new EmbedBuilder()
+            .WithTitle(t)
+            .WithDescription(d)
+            .WithColor(c)
+            .WithFooter(f)
+            .WithThumbnailUrl(thURL)
+            .Build();
 
-		// Generic Image Embed template
-		public static Embed ImageEmbed(string t, string d, Discord.Color c, string f, string imageURL) => new EmbedBuilder()
-			.WithTitle(t)
-			.WithDescription(d)
-			.WithColor(c)
-			.WithFooter(f)
-			.WithImageUrl(imageURL)
-			.Build();
+        // Generic Image Embed template
+        public static Embed ImageEmbed(string t, string d, Discord.Color c, string f, string imageURL) => new EmbedBuilder()
+            .WithTitle(t)
+            .WithDescription(d)
+            .WithColor(c)
+            .WithFooter(f)
+            .WithImageUrl(imageURL)
+            .Build();
 
-		// Print an error
-		public static async Task PrintError(ISocketMessageChannel Channel, string Description) => await SendEmbed(Channel, "Error", Description, Red, "", "").ConfigureAwait(false);
+        // Print a success message
+        public static async Task PrintSuccess(ISocketMessageChannel channel, string description) => await SendEmbed(channel, "Success", description, Colours.Green, "", "").ConfigureAwait(false);
+
+        // Print an error
+        public static async Task PrintError(ISocketMessageChannel channel, string description) => await SendEmbed(channel, "Error", description, Colours.Red, "", "").ConfigureAwait(false);
 
         // Get a dominant color from an image (url)
         public static Discord.Color DomColorFromURL(string url)
@@ -80,29 +79,32 @@ namespace ArrowverseBot
 
         // Checks if a user is a superadmin, this is to see if they can do a certain command
         public static async Task<bool> CheckForSuperadmin(SocketCommandContext context, SocketUser user)
-		{
-			if (UserAccounts.GetAccount(user).superadmin)
-				return true;
-			await PrintError(context.Channel, $"You do not have permission to do that command, {user.Mention}.");
-			return false;
-		}
+        {
+            if (UserAccounts.GetAccount(user).superadmin)
+                return true;
+            await PrintError(context.Channel, $"You do not have permission to do that command, {user.Mention}.").ConfigureAwait(false);
+            return false;
+        }
 
-		// Checks if the current channel is the required channel (like minigames)
-		public static async Task<bool> CheckForChannel(SocketCommandContext context, ulong requiredChannel, SocketUser user)
-		{
-			if (context.Channel.Id == requiredChannel)
-				return true;
-			await PrintError(context.Channel, $"Please use the {context.Guild.GetTextChannel(requiredChannel).Mention} chat for that, {user.Mention}.");
-			return false;
-		}
+        // Checks if the current channel is the required channel (like minigames)
+        public static async Task<bool> CheckForChannel(SocketCommandContext context, ulong requiredChannel, SocketUser user)
+        {
+            if (context.Channel.Id == requiredChannel)
+                return true;
+            await PrintError(context.Channel, $"Please use the {context.Guild.GetTextChannel(requiredChannel).Mention} chat for that, {user.Mention}.").ConfigureAwait(false);
+            return false;
+        }
 
-		// Send an embed to a channel
-		public static async Task SendEmbed(ISocketMessageChannel Channel, string title, string description, Discord.Color color, string footer, string thumbnailURL)
-		{
-            await Channel.SendMessageAsync(null, false, Embed(title, description, color, footer, thumbnailURL)).ConfigureAwait(false);
-		}
-	}
+        // Send an embed to a channel
+        public static async Task SendEmbed(ISocketMessageChannel channel, string title, string description, Discord.Color color, string footer, string thumbnailURL)
+        {
+            await channel.SendMessageAsync(null, false, Embed(title, description, color, footer, thumbnailURL)).ConfigureAwait(false);
+        }
+
+        // Send an embed to a channel
+        public static async Task SendDomColorEmbed(ISocketMessageChannel channel, string title, string description, string imageURL, string footer = null)
+        {
+            await channel.SendMessageAsync(null, false, Embed(title, description, DomColorFromURL(imageURL), footer, imageURL)).ConfigureAwait(false);
+        }
+    }
 }
-	
-
-
