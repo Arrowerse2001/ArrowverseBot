@@ -182,7 +182,7 @@ namespace ArrowverseBot.Handlers
         [Command("harry")]
         public async Task RandomHarryPic()
         {
-            string pic = Config.bot.harryPics[Utilities.GetRandomNumber(0, Config.bot.harryPics.Count)];
+            string pic = Config.ImageFetcher.Harry[Utilities.GetRandomNumber(0, Config.ImageFetcher.Harry.Length)];
             await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(pic), "", pic));
         }
 

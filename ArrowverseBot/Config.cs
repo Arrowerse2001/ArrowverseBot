@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using ArrowverseBot.Commands;
 
 namespace ArrowverseBot
 {
@@ -11,6 +12,7 @@ namespace ArrowverseBot
         private const string configFile = "config.json";
         private const string triviaQuestionsFile = "trivia_questions.json";
 
+        public static ImageFetcher ImageFetcher = new ImageFetcher();
        
         public static TriviaQuestions triviaQuestions;
         public static Handlers.MinigameHandler MinigameHandler = new Handlers.MinigameHandler();
@@ -51,7 +53,7 @@ namespace ArrowverseBot
     {
         public string DisordBotToken;
         public string MovieTVAPIKey;
-        public List<string> harryPics;
+        public List<string> harryPics; // Remove this & remove it from your Config.json if you're just going to use Image Fetcher
 
     }
 
