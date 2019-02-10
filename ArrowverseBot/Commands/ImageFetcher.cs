@@ -12,9 +12,11 @@ namespace ArrowverseBot.Commands
         }
 
         public string[] Harry =
-        {
-            "https://cdn.discordapp.com/attachments/524633291756797952/543820714956947487/9k.png",
-            "https://cdn.discordapp.com/attachments/524633291756797952/543820714956947487/9k.png" // add more
+       {
+         "https://i.imgur.com/e1OjqO1g.png",
+         "https://i.imgur.com/zdEjTDO.png",
+         "https://i.imgur.com/nCUaAPs.jpg",
+         "https://i.imgur.com/E5SGrpj.png"
         };
     }
 }

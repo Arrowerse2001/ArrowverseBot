@@ -20,6 +20,7 @@ namespace ArrowverseBot.Handlers
         [Command("reset")]
         public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
 
+       
         #region Coin Related Commands
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);
@@ -61,6 +62,8 @@ namespace ArrowverseBot.Handlers
         public async Task CoinsLeaderboard() => await CoinsHandler.PrintCoinsLeaderboard(Context);
         #endregion
 
+        [Command("wsi")]
+        public async Task PlayWSI() => await MinigameHandler.WSI.TryToStartGame(Context);
 
 
         //Server Stats
@@ -140,19 +143,7 @@ namespace ArrowverseBot.Handlers
             await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(url), "", url));
         }
 
-        [Command("create emote")]
-        public async Task MakEmote(string url, string name)
-        {
-
-
-            using (HttpClient client = new HttpClient())
-            {
-                var response = await client.GetAsync(new Uri(url));
-                var emote = await Context.Guild.CreateEmoteAsync(name, new Image(await response.Content.ReadAsStreamAsync()));
-                await Utilities.PrintSuccess(Context.Channel, $"Created: {emote}");
-            }
-
-        }
+       
 
         [Command("mock")]
         public async Task Mock([Remainder]string message)
@@ -193,9 +184,32 @@ namespace ArrowverseBot.Handlers
         [Command("help")]
         public async Task help() => await Context.Channel.SendMessageAsync("https://github.com/Arrowerse2001/ArrowverseBot Support Server: https://discord.gg/4Tb4PCU");
 
-    
+        [Command("uptime")]
+        public async Task DisplayUptime()
+        {
+            var time = DateTime.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime.ToUniversalTime();
+            string uptime = $"{time.Hours} hours, {time.Minutes}m {time.Seconds}s";
+            await Utilities.SendEmbed(Context.Channel, "", uptime, Colours.Blue, "", "");
+        }
+
+
+        [Command("create emote")]
+        public async Task MakEmote(string url, string name)
+        {
+
+
+            using (HttpClient client = new HttpClient())
+            {
+                if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
+                var response = await client.GetAsync(new Uri(url));
+                var emote = await Context.Guild.CreateEmoteAsync(name, new Image(await response.Content.ReadAsStreamAsync()));
+                await Utilities.PrintSuccess(Context.Channel, $"Created: {emote}");
+            }
+
+        }
 
     }
 }
+
     
 

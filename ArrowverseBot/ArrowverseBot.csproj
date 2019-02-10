@@ -169,7 +169,6 @@
     <Compile Include="Config.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
     <Compile Include="Handlers\CommandDefinitions.cs" />
-    <Compile Include="Handlers\MediaFetcher.cs" />
     <Compile Include="Handlers\UserData\DataStorage.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
     <Compile Include="Handlers\MinigameHandler.cs" />
@@ -178,6 +177,7 @@
     <Compile Include="Handlers\UserData\UserAccount.cs" />
     <Compile Include="Handlers\UserData\UserAccounts.cs" />
     <Compile Include="Minigames\Trivia.cs" />
+    <Compile Include="Minigames\WhoSaidIt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />

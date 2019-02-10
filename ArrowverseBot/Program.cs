@@ -1,6 +1,8 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace ArrowverseBot
@@ -9,6 +11,7 @@ namespace ArrowverseBot
 	{
 		public static DiscordSocketClient _client;
 		Handlers.EventHandler _handler;
+        private Queue<string> playlist = new Queue<string>();
 
 		static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
 
