@@ -67,7 +67,7 @@ namespace ArrowverseBot.Handlers
         #region Trivia Commands
         // Trivia Menu and/or Start Trivia
         [Command("trivia")]
-        public async Task TryToStartTrivia(string input = null) => await Config.MinigameHandler.Trivia.TryToStartTrivia((SocketGuildUser)Context.User, Context, input ?? "trivia");
+        public async Task TryToStartTrivia(string input = null) => await Handlers.MinigameHandler.Trivia.TryToStartTrivia((SocketGuildUser)Context.User, Context, input ?? "trivia");
         #endregion
     }
 }

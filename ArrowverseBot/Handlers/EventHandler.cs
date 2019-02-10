@@ -112,15 +112,14 @@ namespace ArrowverseBot.Handlers
             // Answer minigames
             if (context.Channel.Id == 509099311661842433)
             {
-                // Answer Trivia
-                if (m == "a" || m == "b" || m == "c" || m == "d")
-                    await Config.MinigameHandler.Trivia.AnswerTrivia((SocketGuildUser)msg.Author, context, m);
+                {
+                    // Answer Trivia
+                    if (m == "a" || m == "b" || m == "c" || m == "d")
+                        await MinigameHandler.Trivia.AnswerTrivia((SocketGuildUser)msg.Author, context, m);
 
-                // Answer "Who Said It?"
-                int x = 0;
-                if (int.TryParse(m, out x))
-                    if (x <= 4 && x >= 1 && MinigameHandler.WSI.isGameGoing)
-                        await MinigameHandler.WSI.TryToGuess(context, x);
+                    
+                }
+
 
 
                 // Print a lennyface

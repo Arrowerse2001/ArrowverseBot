@@ -1,0 +1,22 @@
+{
+  "Questions": [
+    {
+      "Question": "What year is it?",
+      "Answer": "2018",
+      "IncorrectAnswers": [
+        "2000",
+        "1992",
+        "5"
+      ]
+    },
+	{
+      "Question": "What is Beebo the God of",
+      "Answer": "God of War",
+      "IncorrectAnswers": [
+        "God of Mischief",
+        "God of Thunder",
+        "God of Chaos"
+      ]
+    }
+  ]
+}

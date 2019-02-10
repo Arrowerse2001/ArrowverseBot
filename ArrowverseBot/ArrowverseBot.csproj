@@ -166,6 +166,7 @@
   <ItemGroup>
     <Compile Include="Colours.cs" />
     <Compile Include="Commands\ImageFetcher.cs" />
+    <Compile Include="Commands\Minigame Commands.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
     <Compile Include="Handlers\CommandDefinitions.cs" />
@@ -176,14 +177,14 @@
     <Compile Include="Handlers\StatsHandler.cs" />
     <Compile Include="Handlers\UserData\UserAccount.cs" />
     <Compile Include="Handlers\UserData\UserAccounts.cs" />
-    <Compile Include="Minigames\Trivia.cs" />
-    <Compile Include="Minigames\WhoSaidIt.cs" />
+    <Compile Include="Minigames\Trivia\Trivia.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Minigames\Trivia\trivia_questions.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

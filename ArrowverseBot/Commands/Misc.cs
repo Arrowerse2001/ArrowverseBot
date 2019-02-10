@@ -62,8 +62,7 @@ namespace ArrowverseBot.Handlers
         public async Task CoinsLeaderboard() => await CoinsHandler.PrintCoinsLeaderboard(Context);
         #endregion
 
-        [Command("wsi")]
-        public async Task PlayWSI() => await MinigameHandler.WSI.TryToStartGame(Context);
+       
 
 
         //Server Stats
