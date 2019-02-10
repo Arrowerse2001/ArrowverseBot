@@ -11,6 +11,7 @@ using ArrowverseBot.Handlers;
 using ArrowverseBot.Minigames;
 using System.Net.Http;
 
+
 namespace ArrowverseBot.Handlers
 {
     [RequireContext(ContextType.Guild)]
@@ -19,8 +20,9 @@ namespace ArrowverseBot.Handlers
         //Reset A Game
         [Command("reset")]
         public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
+        
 
-       
+
         #region Coin Related Commands
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);

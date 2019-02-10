@@ -26,7 +26,7 @@ namespace ArrowverseBot.Minigames
         public async Task TryToStartTrivia(SocketGuildUser user, SocketCommandContext context, string input)
         {
             if (!await Utilities.CheckForChannel(context, 543877449767845898, context.User)) return;
-            if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds < 60)
+            if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds < 10)
             {
                 await Utilities.PrintError(context.Channel, $"Sorry, {Player.Mention} is currently playing.\nYou can ask an admin to `!reset trivia` if there is an issue.");
                 return;
@@ -36,7 +36,7 @@ namespace ArrowverseBot.Minigames
                 await context.Channel.SendMessageAsync("", false, Embed("Please select a mode.\n\n`!trivia solo` - Play alone.\n\n`!trivia all` - First to answer wins.", ""));
                 return;
             }
-            if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds > 60)
+            if (isTriviaBeingPlayed && (DateTime.Now - StartTime).TotalSeconds > 5)
                 await CancelGame(Player, context).ConfigureAwait(false);
             await StartTrivia(user, context, input.Replace("trivia ", "")).ConfigureAwait(false);
         }
