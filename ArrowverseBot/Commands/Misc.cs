@@ -20,9 +20,10 @@ namespace ArrowverseBot.Handlers
         //Reset A Game
         [Command("reset")]
         public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
-        
-
-
+        /*
+        [Command("join", RunMode = RunMode.Async)]
+        public async Task JoinVC() => await Config.AudioHandler.Join(Context);
+        */
         #region Coin Related Commands
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);

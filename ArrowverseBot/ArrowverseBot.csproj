@@ -67,8 +67,17 @@
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.5\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCs.Contracts, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScriptCs.Contracts.0.4.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCS.SpeakR, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScriptCS.SpeakR.0.2.1\lib\net45\ScriptCS.SpeakR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -165,11 +174,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colours.cs" />
-    <Compile Include="Commands\Audio\AudioModule.cs" />
-    <Compile Include="Commands\Audio\AudioService.cs" />
     <Compile Include="Commands\ImageFetcher.cs" />
     <Compile Include="Commands\Minigame Commands.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
     <Compile Include="Handlers\CommandDefinitions.cs" />
     <Compile Include="Handlers\UserData\DataStorage.cs" />

@@ -11,6 +11,7 @@ namespace ArrowverseBot
 
         public static DiscordSocketClient _client;
         Handlers.EventHandler _handler;
+        public static IServiceProvider _services;
 
         static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
 

@@ -12,13 +12,14 @@ namespace ArrowverseBot.Handlers
     {
         DiscordSocketClient _client;
         CommandService _service;
+        IServiceProvider _services;
 
 
         public async Task InitializeAsync(DiscordSocketClient client)
         {
             _client = client;
             _service = new CommandService();
-            AudioService AudioService = new AudioService();
+            
 
         await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
@@ -33,7 +34,8 @@ namespace ArrowverseBot.Handlers
             _service.Log += Log;
 
 
-            _client.MessageDeleted += HandleMessageDeleted;
+
+        _client.MessageDeleted += HandleMessageDeleted;
         }
 
         private Task Log(LogMessage arg)
