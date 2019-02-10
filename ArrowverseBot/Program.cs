@@ -7,6 +7,8 @@ namespace ArrowverseBot
 {
     class Program
     {
+        
+
         public static DiscordSocketClient _client;
         Handlers.EventHandler _handler;
 

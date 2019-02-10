@@ -10,7 +10,6 @@ namespace ArrowverseBot
     {
         public static readonly BotConfig bot;
         public static ImageFetcher ImageFetcher = new ImageFetcher();
-        public static AudioService AudioService = new AudioService();
 
 
         static Config()

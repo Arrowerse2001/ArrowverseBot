@@ -18,7 +18,9 @@ namespace ArrowverseBot.Handlers
         {
             _client = client;
             _service = new CommandService();
-            await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+            AudioService AudioService = new AudioService();
+
+        await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
             _client.MessageReceived += HandleCommandAsync;
 
