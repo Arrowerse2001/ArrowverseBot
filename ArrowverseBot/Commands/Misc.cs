@@ -14,9 +14,6 @@ using ArrowverseBot.Audio;
 using System.IO;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using Discord;
 using Discord.Audio;
 
 

@@ -12,7 +12,12 @@ namespace ArrowverseBot.Handlers
     {
         DiscordSocketClient _client;
         CommandService _service;
-        IServiceProvider _services;
+        IServiceProvider serviceProdiver;
+
+        public EventHandler(IServiceProvider services)
+        {
+            serviceProdiver = services;
+        }
 
 
         public async Task InitializeAsync(DiscordSocketClient client)
@@ -21,7 +26,7 @@ namespace ArrowverseBot.Handlers
             _service = new CommandService();
             
 
-        await _service.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+        await _service.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProdiver);
 
             _client.MessageReceived += HandleCommandAsync;
 
@@ -33,9 +38,7 @@ namespace ArrowverseBot.Handlers
 
             _service.Log += Log;
 
-
-
-        _client.MessageDeleted += HandleMessageDeleted;
+            _client.MessageDeleted += HandleMessageDeleted;
         }
 
         private Task Log(LogMessage arg)
@@ -108,7 +111,7 @@ namespace ArrowverseBot.Handlers
 
             int argPos = 0;
             if (msg.HasStringPrefix("!", ref argPos))
-                await _service.ExecuteAsync(context, argPos, null, MultiMatchHandling.Exception);
+                await _service.ExecuteAsync(context, argPos, serviceProdiver, MultiMatchHandling.Exception);
 
             string m = msg.Content.ToLower();
 

@@ -2,16 +2,15 @@
 using Discord;
 using Discord.WebSocket;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ArrowverseBot
 {
     class Program
     {
-        
-
         public static DiscordSocketClient _client;
         Handlers.EventHandler _handler;
-        public static IServiceProvider _services;
+        private IServiceProvider _services;
 
         static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
 
@@ -22,7 +21,8 @@ namespace ArrowverseBot
             _client.Log += Log;
             await _client.LoginAsync(TokenType.Bot, Config.bot.DisordBotToken);
             await _client.StartAsync();
-            _handler = new Handlers.EventHandler();
+            _services = new ServiceCollection().AddSingleton(new Audio.AudioService()).BuildServiceProvider();
+            _handler = new Handlers.EventHandler(_services);
             await _handler.InitializeAsync(_client);
             await Task.Delay(-1);
         }

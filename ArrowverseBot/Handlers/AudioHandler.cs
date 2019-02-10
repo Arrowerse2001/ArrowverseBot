@@ -2,7 +2,6 @@
 using Discord.Commands;
 using Discord.Audio;
 using Discord;
-using ArrowverseBot.Audio.AudioService;
 
 namespace ArrowverseBot.Audio
 {

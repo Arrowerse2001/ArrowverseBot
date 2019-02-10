@@ -180,7 +180,7 @@
     <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\AudioService.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
-    <Compile Include="Handlers\CommandDefinitions.cs" />
+    <Compile Include="Commands\TriviaAndTVCommands.cs" />
     <Compile Include="Handlers\UserData\DataStorage.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
     <Compile Include="Handlers\MinigameHandler.cs" />
@@ -195,7 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Minigames\Trivia\trivia_questions.json" />
+    <None Include="Minigames\Trivia\trivia_questions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
