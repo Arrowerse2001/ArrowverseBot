@@ -10,20 +10,34 @@ using System.Text.RegularExpressions;
 using ArrowverseBot.Handlers;
 using ArrowverseBot.Minigames;
 using System.Net.Http;
+using ArrowverseBot.Audio;
+using System.IO;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Discord;
+using Discord.Audio;
+
 
 
 namespace ArrowverseBot.Handlers
 {
+    
     [RequireContext(ContextType.Guild)]
     public class Misc : ModuleBase<SocketCommandContext>
     {
+        
         //Reset A Game
         [Command("reset")]
         public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
-        /*
+
+        
         [Command("join", RunMode = RunMode.Async)]
-        public async Task JoinVC() => await Config.AudioHandler.Join(Context);
-        */
+        public async Task JoinCmd()
+        {
+            await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel);
+        }
         #region Coin Related Commands
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);

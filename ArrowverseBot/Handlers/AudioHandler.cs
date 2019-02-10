@@ -1,50 +1,58 @@
-﻿/*
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.Net;
-using ArrowverseBot.Handlers;
-using ArrowverseBot.Commands;
-//using System.Speech.Synthesiser;
 using Discord.Audio;
-using System.Speech.Synthesis;
+using Discord;
 
-
-namespace ArrowverseBot.Handlers
+namespace ArrowverseBot.Audio
 {
-    class AudioHandler
+    public class AudioModule : ModuleBase<ICommandContext>
     {
-        public async Task Join(SocketCommandContext Context)
+        // Scroll down further for the AudioService.
+        // Like, way down
+        private readonly AudioService _service;
+
+        // Remember to add an instance of the AudioService
+        // to your IServiceCollection when you initialize your bot
+        public AudioModule(AudioService service)
         {
-            context = Context;
-            var channel = Context.Guild.GetVoiceChannel(294699220743618562);
-            c = Context.Guild.GetTextChannel(518186074162331648);
-            Guild = Context.Guild;
+            _service = service;
+        }
 
-            (await channel.ConnectAsync()).Dispose();
+        // You *MUST* mark these commands with 'RunMode.Async'
+        // otherwise the bot will not respond until the Task times out.
+        [RequireOwner]
+        [Command("join", RunMode = RunMode.Async)]
+        public async Task JoinCmd()
+        {
+            await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel);
+        }
 
-            audioClient = await channel.ConnectAsync();
+        // Remember to add preconditions to your commands,
+        // this is merely the minimal amount necessary.
+        // Adding more commands of your own is also encouraged.
+        [RequireOwner]
+        [Command("leave", RunMode = RunMode.Async)]
+        public async Task LeaveCmd()
+        {
+            await _service.LeaveAudio(Context.Guild);
+        }
 
-            synthesizer.Volume = 100;
-            synthesizer.Rate = 1;
-           
-            synthesizer.SetOutputToWaveFile("_voice.wav");
+        [RequireOwner]
+        [Command("play", RunMode = RunMode.Async)]
+        public async Task PlayCmd([Remainder] string song)
+        {
+            await _service.SendAudioAsync(Context.Guild, Context.Channel, song);
+        }
 
-            await Speak("Hello");
+        
 
-            
-
-            StartRecognition();
+        [RequireOwner]
+        [Command("oom")]
+        public async Task PlayShunt()
+        {
+            await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel);
+            await _service.SendAudioAsync(Context.Guild, Context.Channel, "mana.mp3");
+            await _service.LeaveAudio(Context.Guild);
         }
     }
 }
-
-
-System.Speech.dll is not compatible with this version of .Net Framework
-
-*/
-
