@@ -36,8 +36,8 @@ namespace ArrowverseBot.Handlers
         [Command("join", RunMode = RunMode.Async)]
         public async Task Join()
         {
-            var channel = Context.Guild.GetVoiceChannel(544495845412700170);
-            c = Context.Guild.GetTextChannel(524633291756797952);
+            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
+            c = Context.Guild.GetTextChannel(543877449767845898);
             Guild = Context.Guild;
 
             (await channel.ConnectAsync()).Dispose(); 
@@ -54,10 +54,12 @@ namespace ArrowverseBot.Handlers
 
             synth.Volume = 100;
             synth.Rate = 1;
-            synth.SelectVoice("Teen");
-            synth.SetOutputToWaveFile("_voice.wav");
+            synth.GetInstalledVoices();
+       //     synth.SetOutputToWaveFile("_voice.wav");
 
             synth.Speak("test test test test test test test test");
+
+
         }
 
 
