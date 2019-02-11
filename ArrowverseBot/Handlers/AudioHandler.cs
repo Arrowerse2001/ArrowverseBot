@@ -27,8 +27,8 @@ namespace ArrowverseBot.Handlers
         public async Task Join(SocketCommandContext Context)
         {
             context = Context;
-            var channel = Context.Guild.GetVoiceChannel(294699220743618562);
-            c = Context.Guild.GetTextChannel(518186074162331648);
+            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
+            c = Context.Guild.GetTextChannel(543877449767845898);
             Guild = Context.Guild;
 
             (await channel.ConnectAsync()).Dispose();
