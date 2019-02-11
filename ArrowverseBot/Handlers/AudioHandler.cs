@@ -9,12 +9,12 @@ using Discord.Commands;
 using Discord.Audio;
 using System.Threading;
 using System.IO;
-using Discord.Audio;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Globalization;
 using NAudio.Wave;
 using System.Media;
+using System.Speech.Synthesis;
 
 namespace ArrowverseBot.Handlers
 {
@@ -36,14 +36,28 @@ namespace ArrowverseBot.Handlers
         [Command("join", RunMode = RunMode.Async)]
         public async Task Join()
         {
-            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
-            c = Context.Guild.GetTextChannel(543877449767845898);
+            var channel = Context.Guild.GetVoiceChannel(544495845412700170);
+            c = Context.Guild.GetTextChannel(524633291756797952);
             Guild = Context.Guild;
 
-            (await channel.ConnectAsync()).Dispose(); // Error: makes bot leaves VC
+            (await channel.ConnectAsync()).Dispose(); 
 
-            audioClient = await channel.ConnectAsync(); // Error: makes bot leaves VC
+            audioClient = await channel.ConnectAsync();
+            
+        }
 
+        [Command("speak", RunMode = RunMode.Async)]
+        public async Task Speakcmd()
+        {
+            SpeechSynthesizer synth = new SpeechSynthesizer();
+
+
+            synth.Volume = 100;
+            synth.Rate = 1;
+            synth.SelectVoice("Teen");
+            synth.SetOutputToWaveFile("_voice.wav");
+
+            synth.Speak("test test test test test test test test");
         }
 
 
@@ -53,7 +67,7 @@ namespace ArrowverseBot.Handlers
             await _service.LeaveAudio(Context.Guild);
         }
 
-        
+
         [Command("play", RunMode = RunMode.Async)]
         public async Task PlayCmd([Remainder] string song)
         {
@@ -61,6 +75,6 @@ namespace ArrowverseBot.Handlers
         }
 
 
-       
+
     }
 }
