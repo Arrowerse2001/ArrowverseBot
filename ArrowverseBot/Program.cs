@@ -3,11 +3,14 @@ using Discord;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using ArrowverseBot.Handlers;
+using Discord.Commands;
 
 namespace ArrowverseBot
 {
     class Program
     {
+        public static SocketCommandContext _context;
         public static DiscordSocketClient _client;
         Handlers.EventHandler _handler;
         private IServiceProvider _services;

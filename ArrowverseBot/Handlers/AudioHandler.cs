@@ -3,6 +3,7 @@ using Discord.Commands;
 using ArrowverseBot.Handlers;
 using Discord.Audio;
 using Discord;
+using Discord.WebSocket;
 
 namespace ArrowverseBot.Handlers
 {
@@ -16,15 +17,27 @@ namespace ArrowverseBot.Handlers
         {
             _service = service;
         }
+        static ISocketMessageChannel c;
+        static SocketGuild Guild;
+        static SocketCommandContext context;
+        static IAudioClient audioClient;
 
-        
+
         [Command("join", RunMode = RunMode.Async)]
-        public async Task JoinCmd()
+        public async Task Join(SocketCommandContext Context)
         {
-            await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel); // error
+            context = Context;
+            var channel = Context.Guild.GetVoiceChannel(294699220743618562);
+            c = Context.Guild.GetTextChannel(518186074162331648);
+            Guild = Context.Guild;
+
+            (await channel.ConnectAsync()).Dispose();
+
+            audioClient = await channel.ConnectAsync();
+
         }
 
-        
+
         [Command("leave", RunMode = RunMode.Async)]
         public async Task LeaveCmd()
         {
