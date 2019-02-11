@@ -36,16 +36,31 @@ namespace ArrowverseBot.Handlers
         [Command("join", RunMode = RunMode.Async)]
         public async Task Join()
         {
-            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
-            c = Context.Guild.GetTextChannel(543877449767845898);
+            SpeechSynthesizer synth = new SpeechSynthesizer();
+
+
+            var channel = Context.Guild.GetVoiceChannel(294699220743618562);
+            c = Context.Guild.GetTextChannel(518186074162331648);
             Guild = Context.Guild;
 
-            (await channel.ConnectAsync()).Dispose(); 
+            (await channel.ConnectAsync()).Dispose();
 
             audioClient = await channel.ConnectAsync();
-            
-        }
 
+            synth.Volume = 100;
+            synth.Rate = 1;
+            synth.GetInstalledVoices();
+            synth.SetOutputToWaveFile("_voice.wav");
+
+            synth.Speak("Hello");
+
+            //userAudioStream = Guild.GetUser(354458973572956160).AudioStream;
+            //await Guild.GetUser(354458973572956160).AudioStream.CopyToAsync(memoryStream);
+            //Task.Factory.StartNew(PipeAudioStream);
+
+           // StartRecognition();
+        }
+        /*
         [Command("speak", RunMode = RunMode.Async)]
         public async Task Speakcmd()
         {
@@ -59,10 +74,13 @@ namespace ArrowverseBot.Handlers
 
             synth.Speak("test test test test test test test test");
 
+            
+
+
 
         }
 
-
+    */
         [Command("leave", RunMode = RunMode.Async)]
         public async Task LeaveCmd()
         {
