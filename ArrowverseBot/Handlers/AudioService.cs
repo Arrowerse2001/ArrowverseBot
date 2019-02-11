@@ -23,7 +23,7 @@ namespace ArrowverseBot.Handlers
                 return;
             }
 
-            var audioClient = await target.ConnectAsync(); //error
+            var audioClient = await target.ConnectAsync(); 
 
            
         }

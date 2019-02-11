@@ -34,15 +34,15 @@ namespace ArrowverseBot.Handlers
 
 
         [Command("join", RunMode = RunMode.Async)]
-        public async Task Join(SocketCommandContext Context)
+        public async Task Join()
         {
             var channel = Context.Guild.GetVoiceChannel(543828840380760085);
             c = Context.Guild.GetTextChannel(543877449767845898);
             Guild = Context.Guild;
 
-            (await channel.ConnectAsync()).Dispose();
+            (await channel.ConnectAsync()).Dispose(); // Error: makes bot leaves VC
 
-            audioClient = await channel.ConnectAsync();
+            audioClient = await channel.ConnectAsync(); // Error: makes bot leaves VC
 
         }
 
