@@ -24,9 +24,9 @@ namespace ArrowverseBot.Handlers
         {
             _client = client;
             _service = new CommandService();
-            
 
-        await _service.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProdiver);
+
+            await _service.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProdiver);
 
             _client.MessageReceived += HandleCommandAsync;
 
@@ -85,9 +85,7 @@ namespace ArrowverseBot.Handlers
                 return;
             }
             string desc = $"{arg} has joined the server.";
-            if (UserAccounts.GetAccount(arg).level != 0)
-            {
-            }
+            
             await arg.Guild.GetTextChannel(509099311661842433).SendMessageAsync("", false, Utilities.Embed("New User", desc, new Color(31, 139, 76), "", arg.GetAvatarUrl()));
         }
 
@@ -124,7 +122,7 @@ namespace ArrowverseBot.Handlers
                     if (m == "a" || m == "b" || m == "c" || m == "d")
                         await MinigameHandler.Trivia.AnswerTrivia((SocketGuildUser)msg.Author, context, m);
 
-                    
+
                 }
 
 

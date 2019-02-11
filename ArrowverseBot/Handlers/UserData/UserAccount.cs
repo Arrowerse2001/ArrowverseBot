@@ -8,6 +8,6 @@
 		public int localTime { get; set; }
 		public string country { get; set; }
 		public int xp { get; set; }
-		public uint level { get; set; }
+		public uint Role { get; set; }
 	}
 }

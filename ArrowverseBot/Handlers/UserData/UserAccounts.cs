@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Discord.WebSocket;
 using System.Collections.Generic;
+using ArrowverseBot.Handlers;
 
 namespace ArrowverseBot
 {
@@ -45,7 +46,7 @@ namespace ArrowverseBot
 				country = "Not set.",
 				coins = 0,
 				xp = 0,
-				level = 0
+				Role = 0
 			};
 			accounts.Add(newAccount);
 			SaveAccounts();

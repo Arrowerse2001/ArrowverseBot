@@ -71,8 +71,8 @@ namespace ArrowverseBot.Handlers
         public async Task CoinsLeaderboard() => await CoinsHandler.PrintCoinsLeaderboard(Context);
         #endregion
 
-       
 
+      
 
         //Server Stats
         [Command("serverstats")]
