@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using ArrowverseBot.Handlers;
 using ArrowverseBot.Minigames;
 using System.Net.Http;
-using ArrowverseBot.Audio;
 using System.IO;
 using System.Collections.Concurrent;
 using System.Diagnostics;

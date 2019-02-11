@@ -21,7 +21,7 @@ namespace ArrowverseBot
             _client.Log += Log;
             await _client.LoginAsync(TokenType.Bot, Config.bot.DisordBotToken);
             await _client.StartAsync();
-            _services = new ServiceCollection().AddSingleton(new Audio.AudioService()).BuildServiceProvider();
+            _services = new ServiceCollection().AddSingleton(new Handlers.AudioService()).BuildServiceProvider();
             _handler = new Handlers.EventHandler(_services);
             await _handler.InitializeAsync(_client);
             await Task.Delay(-1);
