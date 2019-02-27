@@ -39,8 +39,8 @@ namespace ArrowverseBot.Handlers
             SpeechSynthesizer synth = new SpeechSynthesizer();
 
 
-            var channel = Context.Guild.GetVoiceChannel(294699220743618562);
-            c = Context.Guild.GetTextChannel(518186074162331648);
+            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
+            c = Context.Guild.GetTextChannel(550393498877034513);
             Guild = Context.Guild;
 
             (await channel.ConnectAsync()).Dispose();
@@ -54,13 +54,9 @@ namespace ArrowverseBot.Handlers
 
             synth.Speak("Hello");
 
-            //userAudioStream = Guild.GetUser(354458973572956160).AudioStream;
-            //await Guild.GetUser(354458973572956160).AudioStream.CopyToAsync(memoryStream);
-            //Task.Factory.StartNew(PipeAudioStream);
-
-           // StartRecognition();
+          
         }
-        /*
+        
         [Command("speak", RunMode = RunMode.Async)]
         public async Task Speakcmd()
         {
@@ -70,7 +66,7 @@ namespace ArrowverseBot.Handlers
             synth.Volume = 100;
             synth.Rate = 1;
             synth.GetInstalledVoices();
-       //     synth.SetOutputToWaveFile("_voice.wav");
+            synth.SetOutputToWaveFile("_voice.wav");
 
             synth.Speak("test test test test test test test test");
 
@@ -80,7 +76,7 @@ namespace ArrowverseBot.Handlers
 
         }
 
-    */
+    
         [Command("leave", RunMode = RunMode.Async)]
         public async Task LeaveCmd()
         {

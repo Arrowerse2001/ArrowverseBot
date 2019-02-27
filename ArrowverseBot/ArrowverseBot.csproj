@@ -172,11 +172,15 @@
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Forms.3.4.0.1009999\lib\netstandard2.0\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="YoutubeExtractor, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExtractor.0.10.11\lib\net35\YoutubeExtractor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colours.cs" />
     <Compile Include="Commands\ImageFetcher.cs" />
     <Compile Include="Commands\Minigame Commands.cs" />
+    <Compile Include="Commands\Translate.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\AudioService.cs" />

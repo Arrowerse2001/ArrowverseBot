@@ -219,7 +219,11 @@ namespace ArrowverseBot.Handlers
         [Command("shawn")]
         [Alias("shawnmendes", "shawn mendes", "mendesarmy", "mendes army", "mendes")]
         public async Task DisplayShawnServer() => await Context.Channel.SendMessageAsync($"https://discord.gg/mRAZPvp");
+
         
+            
+
+                
 
     }
 }
