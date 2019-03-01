@@ -178,14 +178,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colours.cs" />
-    <Compile Include="Commands\ImageFetcher.cs" />
+    <Compile Include="Handlers\ImageFetcher.cs" />
     <Compile Include="Commands\Minigame Commands.cs" />
     <Compile Include="Commands\Translate.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Handlers\AudioHandler.cs" />
     <Compile Include="Handlers\AudioService.cs" />
     <Compile Include="Handlers\CoinsHandler.cs" />
-    <Compile Include="Commands\TriviaAndTVCommands.cs" />
+    <Compile Include="Commands\TVCommands.cs" />
     <Compile Include="Handlers\UserData\DataStorage.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
     <Compile Include="Handlers\MinigameHandler.cs" />

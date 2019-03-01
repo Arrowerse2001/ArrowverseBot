@@ -21,7 +21,7 @@ namespace ArrowverseBot.Minigames
 
         private Embed Embed(string description, string footer) => Utilities.Embed("Trivia", description, Colours.Green, footer, "");
 
-        private string GetName(SocketGuildUser user) => user.Nickname ?? user.Username;
+        private static string GetName(SocketGuildUser user) => user.Nickname ?? user.Username;
 
         public async Task TryToStartTrivia(SocketGuildUser user, SocketCommandContext context, string input)
         {

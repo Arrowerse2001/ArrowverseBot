@@ -64,7 +64,7 @@ namespace ArrowverseBot.Handlers
         public TriviaQuestion[] Questions { get; set; }
     }
 
-    public partial class TriviaQuestion
+    public class TriviaQuestion
     {
         [JsonProperty("Question")]
         public string QuestionQuestion { get; set; }

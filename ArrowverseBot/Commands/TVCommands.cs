@@ -1,14 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace ArrowverseBot.Handlers
 {
     [RequireContext(ContextType.Guild)]
-    public class CommandDefinitions : ModuleBase<SocketCommandContext>
+    public class TVCommands : ModuleBase<SocketCommandContext>
     {
-        #region TV Show Commands
         [Command("supergirl")]
         public async Task DisplaySupergirlStuff()
         {
@@ -62,12 +60,5 @@ namespace ArrowverseBot.Handlers
 
             await ReplyAsync("", false, builder.Build());
         }
-        #endregion
-
-        #region Trivia Commands
-        // Trivia Menu and/or Start Trivia
-        [Command("trivia")]
-        public async Task TryToStartTrivia(string input = null) => await Handlers.MinigameHandler.Trivia.TryToStartTrivia((SocketGuildUser)Context.User, Context, input ?? "trivia");
-        #endregion
     }
 }

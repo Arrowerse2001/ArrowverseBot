@@ -22,12 +22,12 @@ namespace ArrowverseBot.Handlers
     {
         
         private readonly AudioService _service;
-
        
         public AudioModule(AudioService service)
         {
             _service = service;
         }
+
         static ISocketMessageChannel c;
         static SocketGuild Guild;
         static IAudioClient audioClient;

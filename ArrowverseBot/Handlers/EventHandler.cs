@@ -12,13 +12,9 @@ namespace ArrowverseBot.Handlers
     {
         DiscordSocketClient _client;
         CommandService _service;
-        IServiceProvider serviceProdiver;
+        readonly IServiceProvider serviceProdiver;
 
-        public EventHandler(IServiceProvider services)
-        {
-            serviceProdiver = services;
-        }
-
+        public EventHandler(IServiceProvider services) => serviceProdiver = services;
 
         public async Task InitializeAsync(DiscordSocketClient client)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArrowverseBot.Handlers
 {
-	class StatsHandler
+	static class StatsHandler
 	{
 		public static string GetCreatedDate(IUser user)
 		{

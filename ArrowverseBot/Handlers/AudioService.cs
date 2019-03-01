@@ -34,7 +34,6 @@ namespace ArrowverseBot.Handlers
             if (ConnectedChannels.TryRemove(guild.Id, out client))
             {
                 await client.StopAsync();
-                //await Log(LogSeverity.Info, $"Disconnected from voice on {guild.Name}.");
             }
         }
 

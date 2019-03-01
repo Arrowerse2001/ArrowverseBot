@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using ArrowverseBot.Commands;
 using ArrowverseBot.Handlers;
 
@@ -8,11 +7,7 @@ namespace ArrowverseBot
 {
     static class Config
     {
-        
         public static readonly BotConfig bot;
-        public static ImageFetcher ImageFetcher = new ImageFetcher();
-
-
 
         static Config()
         {
@@ -30,8 +25,6 @@ namespace ArrowverseBot
                 File.WriteAllText("Resources/config.json", JsonConvert.SerializeObject(bot, Formatting.Indented));
             else
                 bot = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("Resources/config.json"));
-
-           
         }
     }
 
@@ -39,9 +32,4 @@ namespace ArrowverseBot
     {
         public string DisordBotToken;
     }
-
-    
 }
-    
-
-   

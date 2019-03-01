@@ -3,15 +3,12 @@ using Discord;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using ArrowverseBot.Handlers;
-using Discord.Commands;
 
 namespace ArrowverseBot
 {
     class Program
     {
         public static DiscordSocketClient _client;
-        Handlers.EventHandler _handler;
         private IServiceProvider _services;
 
         static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
@@ -27,12 +24,13 @@ namespace ArrowverseBot
             await _client.SetGameAsync("Lucifer", null, ActivityType.Watching);
 
             _services = new ServiceCollection().AddSingleton(new Handlers.AudioService()).BuildServiceProvider();
-            _handler = new Handlers.EventHandler(_services);
+
+            var _handler = new Handlers.EventHandler(_services);
             await _handler.InitializeAsync(_client);
             await Task.Delay(-1);
         }
 
-        private Task Log(LogMessage msg)
+        private static Task Log(LogMessage msg)
         {
             Console.WriteLine(msg.Message);
             return Task.CompletedTask;

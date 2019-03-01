@@ -1,21 +1,11 @@
 ﻿using System;
 using Discord;
-using System.Text;
 using System.Linq;
 using Discord.Commands;
 using Discord.WebSocket;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using ArrowverseBot.Handlers;
-using ArrowverseBot.Minigames;
 using System.Net.Http;
-using System.IO;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using Discord.Audio;
-
-
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ArrowverseBot.Handlers
 {
@@ -23,13 +13,10 @@ namespace ArrowverseBot.Handlers
     [RequireContext(ContextType.Guild)]
     public class Misc : ModuleBase<SocketCommandContext>
     {
-        
         //Reset A Game
         [Command("reset")]
         public async Task ResetAGame([Remainder]string game = "") => await MinigameHandler.ResetGame(Context, game);
 
-        
-        
         #region Coin Related Commands
         [Command("pickpocket")]
         public async Task PickPocketCoins(SocketGuildUser user) => await CoinsHandler.PickPocket(Context, user);
@@ -64,7 +51,7 @@ namespace ArrowverseBot.Handlers
 
         // Leaderboard Shortcut
         [Command("lb coins")]
-        public async Task CoinsLBShortcut() => await CoinsLeaderboard();
+        public async Task CoinsLBShortcut() => await CoinsLeaderboard().ConfigureAwait(false);
 
         // Print the Coins leaderboard
         [Command("leaderboard coins")]
@@ -181,7 +168,7 @@ namespace ArrowverseBot.Handlers
         [Command("harry")]
         public async Task RandomHarryPic()
         {
-            string pic = Config.ImageFetcher.Harry[Utilities.GetRandomNumber(0, Config.ImageFetcher.Harry.Length)];
+            string pic = ImageFetcher.Harry[Utilities.GetRandomNumber(0, ImageFetcher.Harry.Length)];
             await Context.Channel.SendMessageAsync("", false, Utilities.ImageEmbed("", "", Utilities.DomColorFromURL(pic), "", pic));
         }
 

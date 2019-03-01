@@ -1,6 +1,6 @@
 ﻿using System;
-using Discord;
 using System.Linq;
+using System.Text;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
@@ -8,246 +8,241 @@ using System.Collections.Generic;
 
 namespace ArrowverseBot.Handlers
 {
-	class CoinsHandler
-	{
-		private static Color color = new Color(215, 154, 14);
-		private const string icon = "https://i.imgur.com/w09rWQg.png";
+    static class CoinsHandler
+    {
+        private const string icon = "https://i.imgur.com/w09rWQg.png";
 
-		private static async Task PrintEmbed(SocketCommandContext context, string description) => await context.Channel.SendMessageAsync("", false, Utilities.Embed("Coins", description, color, "", icon));
-		private static async Task PrintEmbedNoFooter(SocketCommandContext context, string description) => await context.Channel.SendMessageAsync("", false, Utilities.Embed("Coins", description, color, "", ""));
+        private static async Task PrintEmbed(ISocketMessageChannel channel, string description) => await Utilities.SendEmbed(channel, "Coins", description, Colours.Gold, "", icon);
+        private static async Task PrintEmbedNoFooter(ISocketMessageChannel channel, string description) => await Utilities.SendEmbed(channel, "Coins", description, Colours.Gold, "", "");
 
-		public static async Task GiveCoins(SocketCommandContext context, SocketGuildUser sender, SocketGuildUser reciever, int amount)
-		{
-			var SenderAccount = UserAccounts.GetAccount(sender);
-			var RecieverAccount = UserAccounts.GetAccount(reciever);
-			if (amount < 1)
-			{
-				await PrintEmbed(context, $"You must enter an amount greater than 1, {sender.Mention}.");
-				return;
-			}
-			else if (amount > SenderAccount.coins)
-			{
-				await PrintEmbed(context, $"You do not have that many coins to send, {sender.Mention}.");
-				return;
-			}
-			SenderAccount.coins -= amount;
-			RecieverAccount.coins += amount;
-			UserAccounts.SaveAccounts();
-			await PrintEmbedNoFooter(context, $"{sender.Mention} gave {reciever.Mention} {amount} coins.");
-		}
+        // Give coins to another user (from your own amount)
+        public static async Task GiveCoins(SocketCommandContext context, SocketGuildUser sender, SocketGuildUser reciever, int amount)
+        {
+            var SenderAccount = UserAccounts.GetAccount(sender);
+            var RecieverAccount = UserAccounts.GetAccount(reciever);
+            if (amount < 1)
+            {
+                await PrintEmbed(context.Channel, $"You must enter an amount greater than 1, {sender.Mention}.").ConfigureAwait(false);
+                return;
+            }
+            else if (amount > SenderAccount.coins)
+            {
+                await PrintEmbed(context.Channel, $"You do not have that many coins to send, {sender.Mention}.").ConfigureAwait(false);
+                return;
+            }
+            SenderAccount.coins -= amount;
+            RecieverAccount.coins += amount;
+            UserAccounts.SaveAccounts();
+            await PrintEmbedNoFooter(context.Channel, $"{sender.Mention} gave {reciever.Mention} {amount} coins.").ConfigureAwait(false);
+        }
 
-		public static async Task SpawnCoins(SocketCommandContext context, SocketGuildUser user, int amount)
-		{
-			UserAccounts.GetAccount(user).coins += amount;
-			UserAccounts.SaveAccounts();
-			await PrintEmbedNoFooter(context, $"Spawned {user.Mention} {amount} coins.");
-		}
+        // Spawn coins for a user
+        public static async Task SpawnCoins(SocketCommandContext context, SocketGuildUser user, int amount)
+        {
+            UserAccounts.GetAccount(user).coins += amount;
+            UserAccounts.SaveAccounts();
+            await PrintEmbedNoFooter(context.Channel, $"Spawned {user.Mention} {amount} coins.").ConfigureAwait(false);
+        }
 
-		public static async Task RemoveCoins(SocketCommandContext context, SocketGuildUser user, int amount)
-		{
-			AdjustCoins(user, -amount);
-			await PrintEmbedNoFooter(context, $"{user.Mention} lost {amount} coins.");
-		}
+        // Remove coins from a user
+        public static async Task RemoveCoins(SocketCommandContext context, SocketGuildUser user, int amount)
+        {
+            AdjustCoins(user, -amount);
+            await PrintEmbedNoFooter(context.Channel, $"{user.Mention} lost {amount} coins.").ConfigureAwait(false);
+        }
 
-		public static void AdjustCoins(SocketGuildUser user, int amount)
-		{
-			var account = UserAccounts.GetAccount(user);
-			account.coins += amount;
-			if (account.coins < 0)
-				account.coins = 0;
-			UserAccounts.SaveAccounts();
-		}
+        // Give or take coins from a user
+        public static void AdjustCoins(SocketGuildUser user, int amount)
+        {
+            var account = UserAccounts.GetAccount(user);
+            account.coins += amount;
+            if (account.coins < 0)
+                account.coins = 0;
+            UserAccounts.SaveAccounts();
+        }
 
-		public static async Task DisplayCoins(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
-		{
-			string name = user.Nickname != null ? user.Nickname : user.Username;
-			await channel.SendMessageAsync("", false, Utilities.Embed($"{name}", $"{UserAccounts.GetAccount(user).coins.ToString("#,##0")} Coins", color, "", icon));
-		}
+        // Display how many coins a user has
+        public static async Task DisplayCoins(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
+        {
+            await Utilities.SendEmbed(channel, user.Nickname ?? user.Username, $"{UserAccounts.GetAccount(user).coins.ToString("#,##0")} Coins", Colours.Gold, "", icon);
+        }
 
-		// Still in development
-		public static async Task DisplayCoinsStore(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
-		{
-			await channel.SendMessageAsync("", false, Utilities.Embed($"Coins Store", $"Coin Doubler", Color.Blue, $"You have {UserAccounts.GetAccount(user).coins} Coins.", icon));
-		}
+        // Still in development
+        public static async Task DisplayCoinsStore(SocketCommandContext context, SocketGuildUser user, ISocketMessageChannel channel)
+        {
+            await Utilities.SendEmbed(channel, "Coins Store", $"500 XP - ??? Coins\n1000 XP - ???", Colours.Gold, $"You have {UserAccounts.GetAccount(user).coins} Coins.", icon);
+        }
 
-		private struct PickPocketUser { public SocketGuildUser user; public DateTime timeStamp; }
-		private static List<PickPocketUser> PickPocketHistory = new List<PickPocketUser>();
-		public static async Task PickPocket(SocketCommandContext context, SocketGuildUser target)
-		{
-			SocketGuildUser self = (SocketGuildUser)context.User;
-			if (self == target)
-			{
-				await PrintEmbed(context, "You cannot pickpocket yourself");
-				return;
-			}
-			foreach (PickPocketUser ppu in PickPocketHistory)
-			{
-				if (ppu.user == self)
-				{
-					if ((DateTime.Now - ppu.timeStamp).TotalHours <= 12)
-					{
-						string timeLeft = "";
-						if ((12 - ((DateTime.Now - ppu.timeStamp).TotalHours)) < 1)
-							timeLeft = $"{Math.Round(12 - ((DateTime.Now - ppu.timeStamp).TotalMinutes), 0)} minutes";
-						else
-							timeLeft = $"{Math.Round(12 - ((DateTime.Now - ppu.timeStamp).TotalHours), 0)} hours";
-						await context.Channel.SendMessageAsync("", false, Utilities.Embed($"PickPocket", $"You must wait {timeLeft} before pickpocketing again.", color, "", icon));
-						return;
-					}
-					PickPocketHistory.Remove(ppu);
-				}
-			}
-			if (Utilities.GetRandomNumber(0, 2) == 0)
-			{
-				// Successful pickpocket
-				int CoinsGained = (int)(UserAccounts.GetAccount(target).coins * 0.1);
-				await context.Channel.SendMessageAsync("", false, Utilities.Embed($"PickPocket", $"{self.Mention} successfully pickpocketed {CoinsGained} coins from {target.Mention}.", color, "", icon));
-				AdjustCoins(self, CoinsGained);
-				AdjustCoins(target, -CoinsGained);
-			}
-			else
-			{
-				// Failed pickpocket
-				int CoinsLost = (int)(UserAccounts.GetAccount(self).coins * 0.1);
-				await context.Channel.SendMessageAsync("", false, Utilities.Embed($"PickPocket", $"{self.Mention} attempted to pickpocket {target.Mention} and failed, losing {CoinsLost} coins.", color, "", icon));
-				AdjustCoins(self, -CoinsLost);
-			}
-			PickPocketHistory.Add(new PickPocketUser
-			{
-				user = self,
-				timeStamp = DateTime.Now
-			});
-		}
+        #region Pickpocket Related
+        private static List<PickPocketUser> PickPocketHistory = new List<PickPocketUser>();
+        public static async Task PickPocket(SocketCommandContext context, SocketGuildUser target)
+        {
+            if (target == null)
+            {
+                await Utilities.SendEmbed(context.Channel, "PickPocket", "Attempt to pickpocket others with `!pickpocket @user`", Colours.Gold, "", icon);
+                return;
+            }
 
-		public static async Task PrintCoinsLeaderboard(SocketCommandContext context)
-		{
-			List<int> list = new List<int>();
-			for (int i = 0; i < context.Guild.Users.Count; i++)
-				list.Add(UserAccounts.GetAccount(context.Guild.Users.ElementAt(i)).coins);
+            SocketGuildUser self = (SocketGuildUser)context.User;
+            if (self == target)
+            {
+                await PrintEmbed(context.Channel, "You cannot pickpocket yourself").ConfigureAwait(false);
+                return;
+            }
+            foreach (PickPocketUser ppu in PickPocketHistory)
+            {
+                if (ppu.User == self)
+                {
+                    if ((DateTime.Now - ppu.TimeStamp).TotalHours <= 12)
+                    {
+                        string timeLeft = "";
+                        if ((12 - ((DateTime.Now - ppu.TimeStamp).TotalHours)) < 1)
+                            timeLeft = $"{Math.Round(12 - ((DateTime.Now - ppu.TimeStamp).TotalMinutes), 0)} minutes";
+                        else
+                            timeLeft = $"{Math.Round(12 - ((DateTime.Now - ppu.TimeStamp).TotalHours), 0)} hours";
+                        await Utilities.SendEmbed(context.Channel, "PickPocket", $"You must wait {timeLeft} before pickpocketing again.", Colours.Gold, "", icon);
+                        return;
+                    }
+                    PickPocketHistory.Remove(ppu);
+                }
+            }
+            if (Utilities.GetRandomNumber(0, 2) == 0)
+            {
+                // Successful pickpocket
+                int CoinsGained = (int)(UserAccounts.GetAccount(target).coins * 0.1);
+                await Utilities.SendEmbed(context.Channel, "PickPocket", $"{self.Mention} successfully pickpocketed {CoinsGained} coins from {target.Mention}.", Colours.Gold, "", icon);
+                AdjustCoins(self, CoinsGained);
+                AdjustCoins(target, -CoinsGained);
+            }
+            else
+            {
+                // Failed pickpocket
+                int CoinsLost = (int)(UserAccounts.GetAccount(self).coins * 0.1);
+                await Utilities.SendEmbed(context.Channel, "PickPocket", $"{self.Mention} attempted to pickpocket {target.Mention} and failed, losing {CoinsLost} coins.", Colours.Gold, "", icon);
+                AdjustCoins(self, -CoinsLost);
+            }
+            PickPocketHistory.Add(new PickPocketUser(self, DateTime.Now));
+        }
+        #endregion
 
-			int[] MostCoinsArray = new int[5];
-			int indexMin = 0;
-			var IntArray = list.ToArray();
-			MostCoinsArray[indexMin] = IntArray[0];
-			int min = MostCoinsArray[indexMin];
+        // Print the top 10 users with the most coins (and how much they have)
+        public static async Task PrintCoinsLeaderboard(SocketCommandContext context)
+        {
+            List<int> coinList = new List<int>();
+            for (int i = 0; i < context.Guild.Users.Count; i++)
+                coinList.Add(UserAccounts.GetAccount(context.Guild.Users.ElementAt(i)).coins);
 
-			for (int i = 1; i < IntArray.Length; i++)
-			{
-				if (i < 5)
-				{
-					MostCoinsArray[i] = IntArray[i];
-					if (MostCoinsArray[i] < min)
-					{
-						min = MostCoinsArray[i];
-						indexMin = i;
-					}
-				}
-				else if (IntArray[i] > min)
-				{
-					min = IntArray[i];
-					MostCoinsArray[indexMin] = min;
-					for (int r = 0; r < 5; r++)
-					{
-						if (MostCoinsArray[r] < min)
-						{
-							min = MostCoinsArray[r];
-							indexMin = r;
-						}
-					}
-				}
-			}
+            coinList.Sort();
+            coinList.Reverse();
 
-			var embed = new EmbedBuilder().WithTitle("Coins Leaderboard").WithColor(color);
+            StringBuilder description = new StringBuilder();
+            List<SocketGuildUser> PeopleOnLB = new List<SocketGuildUser>();
+            for (int coinListIndex = 0; coinListIndex < 10; coinListIndex++)
+            {
+                for (int userIndex = 0; userIndex < context.Guild.Users.Count; userIndex++)
+                {
+                    if (UserAccounts.GetAccount(context.Guild.Users.ElementAt(userIndex)).coins == coinList[coinListIndex] && !PeopleOnLB.Contains(context.Guild.Users.ElementAt(userIndex)))
+                    {
+                        string name = context.Guild.Users.ElementAt(userIndex).Nickname ?? context.Guild.Users.ElementAt(userIndex).Username;
+                        description.AppendLine($"`{coinListIndex + 1}.` **{name}**, `{coinList[coinListIndex]} Coins`");
+                        PeopleOnLB.Add(context.Guild.Users.ElementAt(userIndex));
+                        break;
+                    }
+                }
+            }
 
-			Array.Sort(MostCoinsArray);
-			Array.Reverse(MostCoinsArray);
-			List<SocketGuildUser> PeopleOnLB = new List<SocketGuildUser>();
-			for (int i = 0; i < 5; i++)
-			{
-				for (int n = 0; n < context.Guild.Users.Count; n++)
-				{
-					if (UserAccounts.GetAccount(context.Guild.Users.ElementAt(n)).coins == MostCoinsArray[i] && !PeopleOnLB.Contains(context.Guild.Users.ElementAt(n)))
-					{
-						string name = context.Guild.Users.ElementAt(n).Nickname != null ? context.Guild.Users.ElementAt(n).Nickname : context.Guild.Users.ElementAt(n).Username;
-						embed.AddField($"{i + 1} - {name}", MostCoinsArray[i] + " Coins");
-						PeopleOnLB.Add(context.Guild.Users.ElementAt(n));
-						break;
-					}
-				}
-			}
+            await Utilities.SendEmbed(context.Channel, "Top 10 Users With The Most Coins", description.ToString(), Colours.Gold, "", "");
+        }
 
-			await context.Channel.SendMessageAsync("", false, embed.Build());
-		}
+        #region Lottery Related
+        private static bool isLotteryGoing;
+        private static List<SocketGuildUser> PeopleEnteredInLottery;
+        private static int LotteryFee;
+        private static int LotteryPrize;
 
-		private static bool isLotteryGoing = false;
-		private static List<SocketGuildUser> PeopleEnteredInLottery;
-		private static int LotteryFee = 0;
-		private static int LotteryPrize = 0;
+        public static async Task StartCoinsLottery(SocketCommandContext context, int amount, int cost)
+        {
+            if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
+            if (!await Utilities.CheckForChannel(context, 518846214603669537, context.User)) return;
+            if (isLotteryGoing)
+            {
+                await Utilities.PrintError(context.Channel, $"A lottery is already active, {context.User.Mention}.");
+                return;
+            }
 
-		public static async Task StartCoinsLottery(SocketCommandContext context, int amount, int cost)
-		{
-			if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
-			if (!await Utilities.CheckForChannel(context, 509099311661842433, context.User)) return;
-			if (isLotteryGoing)
-			{
-				await Utilities.PrintError(context.Channel, $"A lottery is already active, {context.User.Mention}.");
-				return;
-			}
+            isLotteryGoing = true;
+            LotteryFee = cost;
+            LotteryPrize = amount;
+            PeopleEnteredInLottery = new List<SocketGuildUser>();
+            await PrintEmbed(context.Channel, $"{context.User.Mention} has started a lottery for {amount} coins!\n\nType `!coins lottery join` to enter!\n\nIt cost `{cost}` Coins!").ConfigureAwait(false);
+        }
 
-			isLotteryGoing = true;
-			LotteryFee = cost;
-			LotteryPrize = amount;
-			PeopleEnteredInLottery = new List<SocketGuildUser>();
-			await PrintEmbed(context, $"{context.User.Mention} has started a lottery for {amount} coins!\n\nType `!coins lottery join` to enter!\n\nIt cost `{cost}` Coins!");
-		}
+        public static async Task JoinCoinsLottery(SocketCommandContext context)
+        {
+            if (!isLotteryGoing)
+            {
+                await Utilities.PrintError(context.Channel, $"There is no active lottery, {context.User.Mention}.");
+                return;
+            }
+            if (UserAccounts.GetAccount(context.User).coins < LotteryFee)
+            {
+                await Utilities.PrintError(context.Channel, $"You do not have enough Coins to enter the lottery, {context.User.Mention}.");
+                return;
+            }
 
-		public static async Task JoinCoinsLottery(SocketCommandContext context)
-		{
-			if (!isLotteryGoing)
-			{
-				await Utilities.PrintError(context.Channel, $"There is no active lottery, {context.User.Mention}.");
-				return;
-			}
-			if (UserAccounts.GetAccount(context.User).coins < LotteryFee)
-			{
-				await Utilities.PrintError(context.Channel, $"You do not have enough Coins to enter the lottery, {context.User.Mention}.");
-				return;
-			}
+            AdjustCoins((SocketGuildUser)context.User, -LotteryFee);
+            PeopleEnteredInLottery.Add((SocketGuildUser)context.User);
+            await PrintEmbed(context.Channel, $"{context.User.Mention} has joined the lottery!\n\n{PeopleEnteredInLottery.Count} currently entered.").ConfigureAwait(false);
+        }
 
-			AdjustCoins((SocketGuildUser)context.User, -LotteryFee);
-			PeopleEnteredInLottery.Add((SocketGuildUser)context.User);
-			await PrintEmbed(context, $"{context.User.Mention} has joined the lottery!\n\n{PeopleEnteredInLottery.Count} currently entered.");
-		}
+        public static async Task DrawLottery(SocketCommandContext context)
+        {
+            if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
+            if (!await Utilities.CheckForChannel(context, 518846214603669537, context.User)) return;
+            if (!isLotteryGoing)
+            {
+                await Utilities.PrintError(context.Channel, $"There is no active Lottery, {context.User.Mention}.");
+                return;
+            }
 
-		public static async Task DrawLottery(SocketCommandContext context)
-		{
-			if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
-			if (!await Utilities.CheckForChannel(context, 518846214603669537, context.User)) return;
-			if (!isLotteryGoing)
-			{
-				await Utilities.PrintError(context.Channel, $"There is no active Lottery, {context.User.Mention}.");
-				return;
-			}
+            SocketGuildUser winner;
+            winner = PeopleEnteredInLottery.ElementAt(Utilities.GetRandomNumber(1, PeopleEnteredInLottery.Count));
+            AdjustCoins(winner, LotteryPrize);
+            await PrintEmbed(context.Channel, $"{winner.Mention} has won {LotteryPrize} coins!\n\nThanks for playing!").ConfigureAwait(false);
+            await ResetCoinsLottery(context, false).ConfigureAwait(false);
+        }
 
-			SocketGuildUser winner;
-			winner = PeopleEnteredInLottery.ElementAt(Utilities.GetRandomNumber(1, PeopleEnteredInLottery.Count));
-			AdjustCoins(winner, LotteryPrize);
-			await PrintEmbed(context, $"{winner.Mention} has won {LotteryPrize} coins!\n\nThanks for playing!");
-			await ResetCoinsLottery(context, false);
-		}
+        public static async Task ResetCoinsLottery(SocketCommandContext context, bool isFromUser)
+        {
+            if (isFromUser)
+            {
+                if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
+                await PrintEmbed(context.Channel, $"{context.User.Mention} has reset the Lottery.").ConfigureAwait(false);
+            }
+            isLotteryGoing = false;
+            LotteryFee = 0;
+            LotteryPrize = 0;
+            PeopleEnteredInLottery = null;
+        }
+        #endregion
+    }
 
-		public static async Task ResetCoinsLottery(SocketCommandContext context, bool isFromUser)
-		{
-			if (isFromUser)
-			{
-				if (!await Utilities.CheckForSuperadmin(context, context.User)) return;
-				await PrintEmbed(context, $"{context.User.Mention} has reset the Lottery.");
-			}
-			isLotteryGoing = false;
-			LotteryFee = 0;
-			LotteryPrize = 0;
-			PeopleEnteredInLottery = null;
-		}
-	}
+    // A user that has pickpocketed
+    public class PickPocketUser : IEquatable<PickPocketUser>
+    {
+        public SocketGuildUser User { get; }
+        public DateTime TimeStamp { get; }
+
+        public PickPocketUser(SocketGuildUser user, DateTime timeStamp)
+        {
+            User = user;
+            TimeStamp = timeStamp;
+        }
+
+        public bool Equals(PickPocketUser other) => User.Id == other.User.Id;
+
+        public override bool Equals(object obj) => Equals(obj as PickPocketUser);
+
+        public override int GetHashCode() => 0;
+    }
 }
-
