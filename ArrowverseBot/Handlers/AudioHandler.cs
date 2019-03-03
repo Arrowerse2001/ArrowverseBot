@@ -39,8 +39,8 @@ namespace ArrowverseBot.Handlers
             SpeechSynthesizer synth = new SpeechSynthesizer();
 
 
-            var channel = Context.Guild.GetVoiceChannel(543828840380760085);
-            c = Context.Guild.GetTextChannel(550393498877034513);
+            var channel = Context.Guild.GetVoiceChannel(548271687452327937);
+            c = Context.Guild.GetTextChannel(551081838748237836);
             Guild = Context.Guild;
 
             (await channel.ConnectAsync()).Dispose();
