@@ -59,7 +59,17 @@ namespace ArrowverseBot.Handlers
         #endregion
 
 
-      
+        [Command("swastika")]
+        public async Task Swastika([Remainder]string emoji)
+        {
+            string template = @"emojiemojiemojiemoji<:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
+<:blank:476959484296822786><:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
+emojiemojiemojiemojiemojiemojiemoji
+emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
+emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
+emoji<:blank:476959484296822786><:blank:476959484296822786>emojiemojiemojiemoji";
+            await Context.Channel.SendMessageAsync(template.Replace("emoji", emoji));
+        }
 
         //Server Stats
         [Command("serverstats")]
@@ -186,10 +196,10 @@ namespace ArrowverseBot.Handlers
             string uptime = $"{time.Hours} hours, {time.Minutes}m {time.Seconds}s";
             await Utilities.SendEmbed(Context.Channel, "", uptime, Colours.Blue, "", "");
         }
-
+      
 
         [Command("create emote")]
-        public async Task MakEmote(string url, string name)
+        public async Task MakEmote(string url, string name, string message)
         {
 
 
@@ -199,6 +209,8 @@ namespace ArrowverseBot.Handlers
                 var response = await client.GetAsync(new Uri(url));
                 var emote = await Context.Guild.CreateEmoteAsync(name, new Image(await response.Content.ReadAsStreamAsync()));
                 await Utilities.PrintSuccess(Context.Channel, $"Created: {emote}");
+                if (message.Contains("goat"))
+                    await Context.Channel.SendMessageAsync("hi");
             }
 
         }
