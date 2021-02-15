@@ -59,18 +59,6 @@ namespace ArrowverseBot.Handlers
         #endregion
 
 
-        [Command("swastika")]
-        public async Task Swastika([Remainder]string emoji)
-        {
-            string template = @"emojiemojiemojiemoji<:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
-<:blank:476959484296822786><:blank:476959484296822786><:blank:476959484296822786>emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
-emojiemojiemojiemojiemojiemojiemoji
-emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
-emoji<:blank:476959484296822786><:blank:476959484296822786>emoji
-emoji<:blank:476959484296822786><:blank:476959484296822786>emojiemojiemojiemoji";
-            await Context.Channel.SendMessageAsync(template.Replace("emoji", emoji));
-        }
-
         //Server Stats
         [Command("serverstats")]
         public async Task ServerStats() => await StatsHandler.DisplayServerStats(Context);
@@ -88,7 +76,6 @@ emoji<:blank:476959484296822786><:blank:476959484296822786>emojiemojiemojiemoji"
         [Command("say")]
         public async Task Say([Remainder]string message)
         {
-            if (!await Utilities.CheckForSuperadmin(Context, Context.User)) return;
             await Context.Channel.DeleteMessageAsync(Context.Message.Id);
             await Context.Channel.SendMessageAsync(message);
         }
@@ -186,9 +173,7 @@ emoji<:blank:476959484296822786><:blank:476959484296822786>emojiemojiemojiemoji"
         public async Task DickSize() => await Context.Channel.SendMessageAsync($"8{new string('=', new Random().Next(1, 13))}D");
 
 
-        [Command("help")]
-        public async Task help() => await Context.Channel.SendMessageAsync("https://github.com/Arrowerse2001/ArrowverseBot Support Server: https://discord.gg/4Tb4PCU");
-
+       
         [Command("uptime")]
         public async Task DisplayUptime()
         {
@@ -209,21 +194,9 @@ emoji<:blank:476959484296822786><:blank:476959484296822786>emojiemojiemojiemoji"
                 var response = await client.GetAsync(new Uri(url));
                 var emote = await Context.Guild.CreateEmoteAsync(name, new Image(await response.Content.ReadAsStreamAsync()));
                 await Utilities.PrintSuccess(Context.Channel, $"Created: {emote}");
-                if (message.Contains("goat"))
-                    await Context.Channel.SendMessageAsync("hi");
             }
 
         }
-
-        [Command("shawn")]
-        [Alias("shawnmendes", "shawn mendes", "mendesarmy", "mendes army", "mendes")]
-        public async Task DisplayShawnServer() => await Context.Channel.SendMessageAsync($"https://discord.gg/mRAZPvp");
-
-        
-            
-
-                
-
     }
 }
 

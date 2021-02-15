@@ -3,6 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using ArrowverseBot.Handlers.AudioServ;
 
 namespace ArrowverseBot
 {
@@ -23,7 +24,7 @@ namespace ArrowverseBot
             // displays a activity
             await _client.SetGameAsync("Lucifer", null, ActivityType.Watching);
 
-            _services = new ServiceCollection().AddSingleton(new Handlers.AudioService()).BuildServiceProvider();
+            _services = new ServiceCollection().AddSingleton(new AudioService()).BuildServiceProvider();
 
             var _handler = new Handlers.EventHandler(_services);
             await _handler.InitializeAsync(_client);

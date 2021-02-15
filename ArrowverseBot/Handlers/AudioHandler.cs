@@ -1,96 +1,43 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Discord;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.WebSocket;
 using Discord.Commands;
-using Discord.Audio;
-using System.Threading;
-using System.IO;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Globalization;
-using NAudio.Wave;
-using System.Media;
-using System.Speech.Synthesis;
-
-namespace ArrowverseBot.Handlers
+using ArrowverseBot.Handlers.AudioServ;
+public class AudioModule : ModuleBase<ICommandContext>
 {
-    public class AudioModule : ModuleBase<SocketCommandContext>
+    // Scroll down further for the AudioService.
+    // Like, way down
+    private readonly AudioService _service;
+
+    // Remember to add an instance of the AudioService
+    // to your IServiceCollection when you initialize your bot
+    public AudioModule(AudioService service)
     {
-        
-        private readonly AudioService _service;
-       
-        public AudioModule(AudioService service)
-        {
-            _service = service;
-        }
+        _service = service;
+    }
 
-        static ISocketMessageChannel c;
-        static SocketGuild Guild;
-        static IAudioClient audioClient;
+    // You *MUST* mark these commands with 'RunMode.Async'
+    // otherwise the bot will not respond until the Task times out.
+    [Command("join", RunMode = RunMode.Async)]
+    public async Task JoinCmd()
+    {
+        await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel);
+        await _service.SendAudioAsync(Context.Guild, Context.Channel, "_voice.wav");
+    }
 
+    // Remember to add preconditions to your commands,
+    // this is merely the minimal amount necessary.
+    // Adding more commands of your own is also encouraged.
+    [Command("leave", RunMode = RunMode.Async)]
+    public async Task LeaveCmd()
+    {
+        await _service.LeaveAudio(Context.Guild);
+    }
 
-        [Command("join", RunMode = RunMode.Async)]
-        public async Task Join()
-        {
-            SpeechSynthesizer synth = new SpeechSynthesizer();
-
-
-            var channel = Context.Guild.GetVoiceChannel(548271687452327937);
-            c = Context.Guild.GetTextChannel(551081838748237836);
-            Guild = Context.Guild;
-
-            (await channel.ConnectAsync()).Dispose();
-
-            audioClient = await channel.ConnectAsync();
-
-            synth.Volume = 100;
-            synth.Rate = 1;
-            synth.GetInstalledVoices();
-            synth.SetOutputToWaveFile("_voice.wav");
-
-            synth.Speak("Hello");
-
-          
-        }
-        
-        [Command("speak", RunMode = RunMode.Async)]
-        public async Task Speakcmd()
-        {
-            SpeechSynthesizer synth = new SpeechSynthesizer();
-
-
-            synth.Volume = 100;
-            synth.Rate = 1;
-            synth.GetInstalledVoices();
-            synth.SetOutputToWaveFile("_voice.wav");
-
-            synth.Speak("test test test test test test test test");
-
-            
-
-
-
-        }
+    [Command("play", RunMode = RunMode.Async)]
+    public async Task PlayCmd([Remainder] string song)
+    {
+        await _service.SendAudioAsync(Context.Guild, Context.Channel, song);
+    }
 
     
-        [Command("leave", RunMode = RunMode.Async)]
-        public async Task LeaveCmd()
-        {
-            await _service.LeaveAudio(Context.Guild);
-        }
-
-
-        [Command("play", RunMode = RunMode.Async)]
-        public async Task PlayCmd([Remainder] string song)
-        {
-            await _service.SendAudioAsync(Context.Guild, Context.Channel, song);
-        }
-
-
-
-    }
 }
