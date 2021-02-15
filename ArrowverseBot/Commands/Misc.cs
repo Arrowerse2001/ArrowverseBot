@@ -172,8 +172,60 @@ namespace ArrowverseBot.Handlers
         [Command("dicksize")]
         public async Task DickSize() => await Context.Channel.SendMessageAsync($"8{new string('=', new Random().Next(1, 13))}D");
 
+        [Command("killer")]
+        public async Task PickKiller()
+        {
+            await Context.Channel.SendMessageAsync(ImageFetcher.Killers[Utilities.GetRandomNumber(0, ImageFetcher.Killers.Length)]);
+        }
 
-       
+        [Command("survivor perks")]
+        [Alias("sp")]
+        public async Task GetSurvLoadout()
+        {
+            var perk1 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            var perk2 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            var perk3 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            var perk4 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+
+            while (perk1 == perk2)
+            {
+                perk1 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            }
+            while (perk2 == perk3)
+            {
+                perk2 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            }
+            while (perk3 == perk4)
+            {
+                perk3 = ImageFetcher.SPerks[Utilities.GetRandomNumber(0, ImageFetcher.SPerks.Length)];
+            }
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} Your Survivor Loadout Is: **{perk1}** & **{perk2}** & **{perk3}** & **{perk4}**");
+        }
+
+        [Command("killer perks")]
+        [Alias("kp")]
+        public async Task GetKillerLoadout()
+        {
+            var perk1 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            var perk2 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            var perk3 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            var perk4 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+
+            while (perk1 == perk2)
+            {
+                perk1 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            }
+            while (perk2 == perk3)
+            {
+                perk2 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            }
+            while (perk3 == perk4)
+            {
+                perk3 = ImageFetcher.KPerks[Utilities.GetRandomNumber(0, ImageFetcher.KPerks.Length)];
+            }
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} Your Killer Loadout Is: **{perk1}** & **{perk2}** & **{perk3}** & **{perk4}**");
+        }
+
         [Command("uptime")]
         public async Task DisplayUptime()
         {
